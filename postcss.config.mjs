@@ -3,6 +3,8 @@ const config = {
   plugins: {
     tailwindcss: {},
   },
+  output: 'standalone',
+
 };
 
 export default config;
