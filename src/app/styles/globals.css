@@ -5,17 +5,127 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --primary: #7C3AED; /* purple-600 */
+  --primary-light: #8B5CF6; /* purple-500 */
+  --primary-dark: #6D28D9; /* purple-700 */
 }
 
 body {
   color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  background: transparent;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+#__next {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Custom Background Gradients */
+.bg-gradient-custom {
+  background: linear-gradient(135deg, 
+    rgb(238 242 255) /* indigo-50 */, 
+    rgb(245 243 255) /* purple-50 */, 
+    rgb(255 255 255) /* white */
+  );
+}
+
+.bg-gradient-primary {
+  background: linear-gradient(to right, 
+    rgb(79 70 229) /* indigo-600 */, 
+    rgb(124 58 237) /* purple-600 */
+  );
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgb(245 243 255); /* purple-50 */
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgb(124 58 237); /* purple-600 */
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(109 40 217); /* purple-700 */
+}
+
+/* Glass Effect */
+.glass-effect {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Gradient Text */
+.gradient-text {
+  background: linear-gradient(to right, 
+    rgb(79 70 229) /* indigo-600 */, 
+    rgb(124 58 237) /* purple-600 */
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Custom Shadows */
+.shadow-custom {
+  box-shadow: 0 4px 6px -1px rgba(124, 58, 237, 0.1), 
+              0 2px 4px -1px rgba(124, 58, 237, 0.06);
+}
+
+/* Custom Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+/* Custom Button Styles */
+.btn-primary {
+  @apply bg-gradient-to-r from-indigo-600 to-purple-600 
+         text-white px-6 py-3 rounded-xl font-semibold
+         shadow-lg hover:shadow-xl transition-all duration-300;
+}
+
+.btn-secondary {
+  @apply border-2 border-purple-500 text-purple-600 
+         px-6 py-3 rounded-xl font-semibold 
+         hover:bg-purple-50 transition-all duration-300;
+}
+
+/* Custom Input Styles */
+.input-primary {
+  @apply w-full px-4 py-3 border border-gray-200 
+         rounded-lg focus:ring-2 focus:ring-purple-500 
+         focus:border-transparent outline-none transition 
+         bg-white/50;
 }

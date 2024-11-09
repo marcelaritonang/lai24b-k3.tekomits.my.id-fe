@@ -1,8 +1,8 @@
-// src/app/components/Sidebar.tsx
 "use client";
 
 import { useState } from "react";
 import Link from "next/link";
+import { motion } from "framer-motion";
 
 interface SidebarProps {
     onClose: () => void;
@@ -11,12 +11,27 @@ interface SidebarProps {
 export default function Sidebar({ onClose }: SidebarProps) {
     return (
         <>
-            {/* Sidebar with reduced width and better colors */}
-            <div className="fixed top-0 left-0 h-full w-[240px] bg-gray-900 text-white transform transition-transform duration-300 z-40">
+            {/* Backdrop overlay */}
+            <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                onClick={onClose}
+                className="fixed inset-0 bg-black/20 backdrop-blur-sm z-40"
+            />
+            
+            {/* Sidebar */}
+            <motion.div
+                initial={{ x: -240 }}
+                animate={{ x: 0 }}
+                exit={{ x: -240 }}
+                transition={{ type: "tween", duration: 0.3 }}
+                className="fixed top-0 left-0 h-full w-[240px] bg-white/80 backdrop-blur-md border-r border-gray-200 shadow-xl transform z-50"
+            >
                 {/* Exit Button */}
                 <button
                     onClick={onClose}
-                    className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors"
+                    className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors"
                     aria-label="Close Sidebar"
                 >
                     <svg
@@ -37,48 +52,60 @@ export default function Sidebar({ onClose }: SidebarProps) {
                     {/* User Profile Section */}
                     <div className="px-5 mb-6">
                         <div className="flex items-center">
-                            <div className="w-8 h-8 bg-lime-500 rounded-full flex items-center justify-center text-white font-medium">
+                            <div className="w-10 h-10 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-xl flex items-center justify-center text-white font-medium shadow-md">
                                 T
                             </div>
                             <div className="ml-3">
-                                <h2 className="text-white font-semibold tracking-wide text-sm">RIANCO'S</h2>
-                                <p className="text-gray-400 text-xs">WORKSPACE</p>
+                                <h2 className="text-gray-800 font-semibold tracking-wide text-sm">RIANCO'S</h2>
+                                <p className="text-gray-500 text-xs">WORKSPACE</p>
                             </div>
                         </div>
                     </div>
 
                     {/* Navigation Links */}
-                    <nav className="flex flex-col py-2">
+                    <nav className="flex flex-col py-2 px-3">
                         {[
-                            { name: 'Home', href: '/' },
-                            { name: 'History', href: '/history' },
+                            { name: 'Dashboard', href: '/' },
+                            { name: 'Link History', href: '/history' },
+                            { name: 'Analytics', href: '/analytics' },
                             { name: 'Settings', href: '/settings' },
-                            { name: 'Team', href: '/team' }
+                            { name: 'Team Members', href: '/team' }
                         ].map((item) => (
                             <Link
                                 key={item.name}
                                 href={item.href}
-                                className="px-5 py-2.5 text-gray-300 hover:bg-gray-800/50 hover:text-white transition-colors text-[15px] rounded-lg mx-2"
+                                className="px-4 py-2.5 text-gray-600 hover:bg-purple-50 hover:text-purple-600 transition-colors text-sm font-medium rounded-lg flex items-center space-x-2"
                             >
                                 {item.name}
                             </Link>
                         ))}
                     </nav>
 
+                    {/* Pro Features Section */}
+                    <div className="px-5 py-4 mt-6">
+                        <div className="p-4 rounded-xl bg-gradient-to-r from-indigo-50 to-purple-50 border border-purple-100">
+                            <h3 className="text-gray-800 font-semibold mb-2">Upgrade to Pro</h3>
+                            <p className="text-gray-600 text-sm mb-3">Get advanced features and detailed analytics</p>
+                            <button className="w-full px-4 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg text-sm font-medium hover:shadow-md transition-shadow">
+                                View Plans
+                            </button>
+                        </div>
+                    </div>
+
                     {/* Logout Button */}
                     <div className="mt-auto pb-4">
                         <div className="px-5 py-3">
-                            <div className="border-t border-gray-800" />
+                            <div className="border-t border-gray-200" />
                         </div>
                         <Link 
                             href="/logout"
-                            className="px-5 py-2.5 text-gray-400 hover:bg-gray-800/50 hover:text-white transition-colors text-[15px] rounded-lg mx-2 flex items-center"
+                            className="mx-3 px-4 py-2.5 text-gray-600 hover:bg-purple-50 hover:text-purple-600 transition-colors text-sm font-medium rounded-lg flex items-center"
                         >
-                            Logout
+                            Sign Out
                         </Link>
                     </div>
                 </div>
-            </div>
+            </motion.div>
         </>
     );
 }
