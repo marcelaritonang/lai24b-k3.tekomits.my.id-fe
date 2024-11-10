@@ -69,7 +69,7 @@ export default function HelpCenterPage() {
                             className="p-6 bg-white rounded-xl shadow-sm border border-gray-100"
                         >
                             <h3 className="font-semibold mb-2">Quick Start Guide</h3>
-                            <p className="text-gray-600 text-sm mb-4">Learn the basics of using Lynx in under 5 minutes.</p>
+                            <p className="text-gray-600 text-sm mb-4">Learn the basics of using Lynxs in under 5 minutes.</p>
                             <button className="text-purple-600 text-sm font-medium hover:text-purple-700">
                                 Read Guide →
                             </button>
@@ -80,7 +80,7 @@ export default function HelpCenterPage() {
                             className="p-6 bg-white rounded-xl shadow-sm border border-gray-100"
                         >
                             <h3 className="font-semibold mb-2">Video Tutorials</h3>
-                            <p className="text-gray-600 text-sm mb-4">Watch step-by-step guides for using Lynx features.</p>
+                            <p className="text-gray-600 text-sm mb-4">Watch step-by-step guides for using Lynxs features.</p>
                             <button className="text-purple-600 text-sm font-medium hover:text-purple-700">
                                 Watch Videos →
                             </button>
@@ -91,7 +91,7 @@ export default function HelpCenterPage() {
                             className="p-6 bg-white rounded-xl shadow-sm border border-gray-100"
                         >
                             <h3 className="font-semibold mb-2">API Documentation</h3>
-                            <p className="text-gray-600 text-sm mb-4">Technical guides for integrating Lynx API.</p>
+                            <p className="text-gray-600 text-sm mb-4">Technical guides for integrating Lynxs API.</p>
                             <button className="text-purple-600 text-sm font-medium hover:text-purple-700">
                                 View Docs →
                             </button>

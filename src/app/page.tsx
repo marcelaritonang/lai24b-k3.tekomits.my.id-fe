@@ -52,7 +52,7 @@ export default function Home() {
                         {/* Text Section */}
                         <div className="text-center md:text-left max-w-md">
                             <h2 className="text-5xl font-extrabold mb-4 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
-                                LYNX SHORT URL AND QR CODE GENERATOR
+                                LYNXS SHORT URL AND QR CODE GENERATOR
                             </h2>
                             <p className="text-gray-600 mb-8 leading-relaxed text-lg">
                                 Transform your links into powerful insights. Track, analyze, and optimize your customer engagement with our advanced URL shortening solution.
@@ -149,7 +149,7 @@ export default function Home() {
                         </div>
                     </motion.section>
 
-                    {/* Why Choose Lynx Section */}
+                    {/* Why Choose Lynxs Section */}
                     <motion.section 
                         className="w-full py-24 px-8 mt-12 bg-gradient-to-br from-white to-indigo-50 backdrop-blur-sm"
                         initial={{ opacity: 0 }}
@@ -158,7 +158,7 @@ export default function Home() {
                     >
                         <div className="max-w-6xl mx-auto text-center space-y-16">
                             <h3 className="text-4xl font-extrabold bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
-                                Why Choose Lynx?
+                                Why Choose Lynxs?
                             </h3>
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                                 {/* Feature Cards */}

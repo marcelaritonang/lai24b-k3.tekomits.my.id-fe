@@ -92,7 +92,7 @@ export default function SignUpPage() {
                                 {!isSubmitted ? (
                                     <>
                                         <h1 className="text-3xl font-bold text-purple-600 mb-2">
-                                            Welcome to Lynx!
+                                            Welcome to Lynxs!
                                         </h1>
                                         <p className="text-gray-600 mb-8">
                                             Please enter your details to create an account

@@ -15,7 +15,7 @@ export async function fetchLinkHistory(): Promise<LinkHistory[]> {
             resolve([
                 {
                     id: 1,
-                    shortLink: "https://lynx.com/Bn41aCOInxj",
+                    shortLink: "https://lynxs.com/Bn41aCOInxj",
                     originalLink: "https://www.youtube.com/watch?v=8J7ZmH0lXuk",
                     qrCode: "/static/qr-code-1.png",
                     status: "Inactive",
@@ -23,7 +23,7 @@ export async function fetchLinkHistory(): Promise<LinkHistory[]> {
                 },
                 {
                     id: 2,
-                    shortLink: "https://lynx.com/Bn41aCOInxj",
+                    shortLink: "https://lynxs.com/Bn41aCOInxj",
                     originalLink: "https://unsplash.com/photos/2KjNwOzFfVQ",
                     qrCode: "/static/qr-code-2.png",
                     status: "Active",

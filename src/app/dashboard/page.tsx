@@ -13,7 +13,7 @@ export default function DashboardPage() {
         {
             id: 1,
             originalUrl: 'https://verylongurl.com/example/path/to/something',
-            shortUrl: 'lynx.sh/ab123',
+            shortUrl: 'lynxs.com/ab123',
             clicks: 145,
             created: '2 hours ago',
             status: 'active'

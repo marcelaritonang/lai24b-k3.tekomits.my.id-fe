@@ -1,7 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
-
+import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 
 interface NavbarProps {
@@ -12,7 +11,9 @@ interface NavbarProps {
 
 export default function Navbar({ showSidebarToggle = false, onToggleSidebar, onGetStartedClick }: NavbarProps) {
     const [isScrolled, setIsScrolled] = useState(false);
-    const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+    const [hoveredItem, setHoveredItem] = useState<string | null>(null);
+    const hoverTimeoutRef = useRef<NodeJS.Timeout>();
+    const dropdownRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -21,6 +22,33 @@ export default function Navbar({ showSidebarToggle = false, onToggleSidebar, onG
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
+
+    const handleMouseEnter = (label: string) => {
+        if (hoverTimeoutRef.current) {
+            clearTimeout(hoverTimeoutRef.current);
+        }
+        setHoveredItem(label);
+    };
+
+    const handleMouseLeave = () => {
+        if (hoverTimeoutRef.current) {
+            clearTimeout(hoverTimeoutRef.current);
+        }
+        
+        hoverTimeoutRef.current = setTimeout(() => {
+            setHoveredItem(null);
+        }, 150);
+    };
+
+    const handleDropdownMouseEnter = () => {
+        if (hoverTimeoutRef.current) {
+            clearTimeout(hoverTimeoutRef.current);
+        }
+    };
+
+    const handleDropdownMouseLeave = () => {
+        setHoveredItem(null);
+    };
 
     const navItems = [
         {
@@ -32,9 +60,9 @@ export default function Navbar({ showSidebarToggle = false, onToggleSidebar, onG
             dropdownItems: ['For Enterprise', 'For Marketing', 'For Social Media', 'For Developers']
         },
         { label: 'Pricing' },
-        { 
+        {
             label: 'Resources',
-            dropdownItems: ['Documentation', 'Blog', 'Support', 'API Docs']
+            dropdownItems: ['Documentation', 'Blog', 'Guide', 'API Docs']
         }
     ];
 
@@ -58,11 +86,11 @@ export default function Navbar({ showSidebarToggle = false, onToggleSidebar, onG
                         )}
                         
                         <Link href="/" className="flex items-center gap-2">
-                             <div className="w-10 h-10 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-xl flex items-center justify-center text-white font-medium shadow-md">
+                        <div className="w-10 h-10 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-xl flex items-center justify-center text-white font-medium shadow-md">
                                 L
                             </div>
-                            <span className="text-2xl font-bold text-purple-600">
-                                Lynx
+                            <span className="text-2xl font-bold text-[#8B5CF6]">
+                                Lynxs
                             </span>
                         </Link>
                     </div>
@@ -70,30 +98,60 @@ export default function Navbar({ showSidebarToggle = false, onToggleSidebar, onG
                     {/* Desktop Navigation */}
                     <div className="hidden md:flex items-center gap-2">
                         {navItems.map((item, index) => (
-                            <div key={index} className="relative group">
-                                <button
-                                    className="px-4 py-2 text-gray-600 hover:text-gray-900 font-medium flex items-center gap-1 rounded-lg hover:bg-gray-50"
-                                    onMouseEnter={() => setActiveDropdown(item.label)}
-                                    onMouseLeave={() => setActiveDropdown(null)}
-                                >
+                            <div 
+                                key={index} 
+                                className="relative"
+                                onMouseEnter={() => handleMouseEnter(item.label)}
+                                onMouseLeave={handleMouseLeave}
+                            >
+                                <button className={`
+                                    px-4 py-2 rounded-lg font-medium 
+                                    transition-all duration-200
+                                    ${hoveredItem === item.label ? 'text-[#8B5CF6] bg-purple-50' : 'text-gray-700 hover:text-[#8B5CF6]'}
+                                    flex items-center gap-1
+                                    ${item.label === 'Resources' ? 'group' : ''}
+                                `}>
                                     {item.label}
                                     {item.dropdownItems && (
-                                        <span className="ml-1">▼</span>
+                                        <span className={`
+                                            ml-1 text-[10px]
+                                            transition-transform duration-200
+                                            ${hoveredItem === item.label ? 'rotate-180 text-[#8B5CF6]' : ''}
+                                            ${item.label === 'Resources' ? 'group-hover:text-[#8B5CF6]' : ''}
+                                        `}>
+                                            ▼
+                                        </span>
                                     )}
                                 </button>
                                 
                                 {/* Dropdown Menu */}
-                                {item.dropdownItems && activeDropdown === item.label && (
+                                {item.dropdownItems && hoveredItem === item.label && (
                                     <div
-                                        className="absolute top-full left-0 w-48 py-2 mt-1 bg-white rounded-xl shadow-xl border border-gray-100"
-                                        onMouseEnter={() => setActiveDropdown(item.label)}
-                                        onMouseLeave={() => setActiveDropdown(null)}
+                                        ref={dropdownRef}
+                                        onMouseEnter={handleDropdownMouseEnter}
+                                        onMouseLeave={handleDropdownMouseLeave}
+                                        className={`
+                                            absolute left-0 min-w-[200px]
+                                            bg-white rounded-lg shadow-xl border border-gray-100
+                                            transform transition-all duration-200 ease-out
+                                            ${hoveredItem === item.label ? 'opacity-100 translate-y-1' : 'opacity-0 translate-y-0 pointer-events-none'}
+                                        `}
+                                        style={{
+                                            marginTop: '0.5rem',
+                                            zIndex: 1000
+                                        }}
                                     >
                                         {item.dropdownItems.map((dropdownItem, idx) => (
                                             <a
                                                 key={idx}
                                                 href="#"
-                                                className="block px-4 py-2 text-gray-600 hover:text-gray-900 hover:bg-purple-50"
+                                                className={`
+                                                    block px-4 py-2.5
+                                                    text-gray-600 hover:text-[#8B5CF6] hover:bg-purple-50
+                                                    transition-colors duration-150 text-sm font-medium
+                                                    ${idx === 0 ? 'rounded-t-lg' : ''}
+                                                    ${idx === item.dropdownItems.length - 1 ? 'rounded-b-lg' : ''}
+                                                `}
                                             >
                                                 {dropdownItem}
                                             </a>
@@ -108,13 +166,13 @@ export default function Navbar({ showSidebarToggle = false, onToggleSidebar, onG
                     <div className="hidden md:flex items-center gap-4">
                         <Link
                             href="/login"
-                            className="px-4 py-2 text-gray-600 hover:text-gray-900 font-medium"
+                            className="px-4 py-2 text-gray-700 hover:text-[#8B5CF6] font-medium"
                         >
                             Login
                         </Link>
                         <button
                             onClick={onGetStartedClick}
-                            className="px-6 py-2 bg-purple-600 text-white rounded-lg font-medium shadow-md hover:bg-purple-700 transition-colors"
+                            className="px-6 py-2 bg-[#8B5CF6] text-white rounded-lg font-medium shadow-md hover:bg-[#7C3AED] transition-colors"
                         >
                             Get Started
                         </button>

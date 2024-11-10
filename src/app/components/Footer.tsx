@@ -14,7 +14,7 @@ export default function Footer() {
                             <div className="w-10 h-10 rounded-xl bg-purple-600 flex items-center justify-center text-white font-bold text-xl">
                                 L
                             </div>
-                            <span className="text-2xl font-bold text-purple-600">Lynx</span>
+                            <span className="text-2xl font-bold text-purple-600">Lynxs</span>
                         </div>
                         <p className="text-gray-500">
                             Transform your links into powerful insights with our advanced URL shortening solution.
@@ -101,7 +101,7 @@ export default function Footer() {
                 {/* Bottom Bar */}
                 <div className="mt-12 pt-8 border-t border-gray-100">
                     <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-                        <p className="text-gray-500">© 2024 Lynx. All rights reserved.</p>
+                        <p className="text-gray-500">© 2024 Lynxs. All rights reserved.</p>
                         <div className="flex gap-6">
                             <Link href="/privacy" className="text-gray-500 hover:text-purple-600 transition-colors">
                                 Privacy Policy

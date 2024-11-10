@@ -107,7 +107,7 @@ export default function ForgotPasswordPage() {
                                 className="w-full md:w-1/2 flex justify-center"
                             >
                                 <Image
-                                    src="/static/qr-illustration.png"
+                                    src="/static/qr3.jpg"
                                     alt="Reset Password Illustration"
                                     width={400}
                                     height={400}
