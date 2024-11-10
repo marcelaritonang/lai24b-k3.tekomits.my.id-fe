@@ -17,7 +17,7 @@ export const LoginIllustration = () => {
                     <div className="absolute bottom-0 left-0 w-48 h-48 bg-purple-200 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000"></div>
                     
                     <Image
-                        src="/static/qr-illustration.png"
+                        src="/static/qr3.jpg"
                         alt="Login Illustration"
                         width={300}
                         height={300}

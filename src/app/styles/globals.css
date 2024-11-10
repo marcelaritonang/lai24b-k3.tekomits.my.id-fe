@@ -37,15 +37,15 @@ html {
 /* Custom Background Gradients */
 .bg-gradient-custom {
   background: linear-gradient(135deg, 
-    rgb(238 242 255) /* indigo-50 */, 
-    rgb(245 243 255) /* purple-50 */, 
+    rgb(238 242 255), /* indigo-50 */
+    rgb(245 243 255), /* purple-50 */
     rgb(255 255 255) /* white */
   );
 }
 
 .bg-gradient-primary {
   background: linear-gradient(to right, 
-    rgb(79 70 229) /* indigo-600 */, 
+    rgb(79 70 229), /* indigo-600 */
     rgb(124 58 237) /* purple-600 */
   );
 }
@@ -79,7 +79,7 @@ html {
 /* Gradient Text */
 .gradient-text {
   background: linear-gradient(to right, 
-    rgb(79 70 229) /* indigo-600 */, 
+    rgb(79 70 229), /* indigo-600 */
     rgb(124 58 237) /* purple-600 */
   );
   -webkit-background-clip: text;
@@ -128,4 +128,65 @@ html {
          rounded-lg focus:ring-2 focus:ring-purple-500 
          focus:border-transparent outline-none transition 
          bg-white/50;
+}
+
+/* Table Styles for Link History */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.table th, .table td {
+  padding: 12px 16px;
+  text-align: left;
+}
+
+.table th {
+  background: rgba(245, 243, 255, 1); /* Light grey header */
+  color: #333;
+  font-weight: bold;
+}
+
+.table-row:hover {
+  background: rgba(245, 243, 255, 0.6); /* Hover effect */
+}
+
+.status-active {
+  color: #28a745; /* Green for Active */
+  background: #e7f6e7;
+  border-radius: 8px;
+  padding: 4px 8px;
+}
+
+.status-inactive {
+  color: #dc3545; /* Red for Inactive */
+  background: #f8d7da;
+  border-radius: 8px;
+  padding: 4px 8px;
+}
+
+.icon {
+  width: 20px;
+  height: 20px;
+  color: #666;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.icon:hover {
+  color: var(--primary);
+}
+
+/* Responsive Styling */
+@media (min-width: 768px) {
+  .btn-primary, .btn-secondary {
+    padding: 8px 16px;
+  }
+  .table th, .table td {
+    padding: 16px 24px;
+  }
 }

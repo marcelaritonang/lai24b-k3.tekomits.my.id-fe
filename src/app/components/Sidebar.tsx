@@ -53,7 +53,7 @@ export default function Sidebar({ onClose }: SidebarProps) {
                     <div className="px-5 mb-6">
                         <div className="flex items-center">
                             <div className="w-10 h-10 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-xl flex items-center justify-center text-white font-medium shadow-md">
-                                T
+                                L
                             </div>
                             <div className="ml-3">
                                 <h2 className="text-gray-800 font-semibold tracking-wide text-sm">RIANCO'S</h2>
@@ -65,24 +65,23 @@ export default function Sidebar({ onClose }: SidebarProps) {
                     {/* Navigation Links */}
                     <nav className="flex flex-col py-2 px-3">
                         {[
-                            { name: 'Dashboard', href: '/' },
-                            { name: 'Link History', href: '/history' },
-                            { name: 'Analytics', href: '/analytics' },
-                            { name: 'Settings', href: '/settings' },
-                            { name: 'Team Members', href: '/team' }
+                            { name: 'Dashboard', href: '/dashboard', icon: '📊' },
+                            { name: 'Link History', href: '/history', icon: '🔗' },
+                            { name: 'Help Center', href: '/help', icon: '❔' }
                         ].map((item) => (
                             <Link
                                 key={item.name}
                                 href={item.href}
-                                className="px-4 py-2.5 text-gray-600 hover:bg-purple-50 hover:text-purple-600 transition-colors text-sm font-medium rounded-lg flex items-center space-x-2"
+                                className="px-4 py-3 text-gray-600 hover:bg-purple-50 hover:text-purple-600 transition-colors text-sm font-medium rounded-lg flex items-center gap-3"
                             >
+                                <span>{item.icon}</span>
                                 {item.name}
                             </Link>
                         ))}
                     </nav>
 
-                    {/* Pro Features Section */}
-                    <div className="px-5 py-4 mt-6">
+                    {/* Upgrade to Pro Section */}
+                    <div className="px-5 py-4 mt-auto mb-6">
                         <div className="p-4 rounded-xl bg-gradient-to-r from-indigo-50 to-purple-50 border border-purple-100">
                             <h3 className="text-gray-800 font-semibold mb-2">Upgrade to Pro</h3>
                             <p className="text-gray-600 text-sm mb-3">Get advanced features and detailed analytics</p>
@@ -90,19 +89,6 @@ export default function Sidebar({ onClose }: SidebarProps) {
                                 View Plans
                             </button>
                         </div>
-                    </div>
-
-                    {/* Logout Button */}
-                    <div className="mt-auto pb-4">
-                        <div className="px-5 py-3">
-                            <div className="border-t border-gray-200" />
-                        </div>
-                        <Link 
-                            href="/logout"
-                            className="mx-3 px-4 py-2.5 text-gray-600 hover:bg-purple-50 hover:text-purple-600 transition-colors text-sm font-medium rounded-lg flex items-center"
-                        >
-                            Sign Out
-                        </Link>
                     </div>
                 </div>
             </motion.div>

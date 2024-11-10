@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import Navbar from './Navbar';
 import Sidebar from './Sidebar';
 
 interface AppLayoutProps {
@@ -17,6 +18,12 @@ export default function AppLayout({ children }: AppLayoutProps) {
 
     return (
         <div className="min-h-screen relative">
+            {/* Navbar */}
+            <Navbar 
+                showSidebarToggle={true}
+                onToggleSidebar={toggleSidebar}
+            />
+
             {/* Sidebar with animation */}
             <AnimatePresence>
                 {sidebarOpen && (
@@ -24,16 +31,16 @@ export default function AppLayout({ children }: AppLayoutProps) {
                 )}
             </AnimatePresence>
 
-            {/* Main content area */}
-            <motion.main
-                className="w-full"
+            {/* Main content with sidebar margin transition */}
+            <motion.div
                 animate={{
                     marginLeft: sidebarOpen ? "240px" : "0"
                 }}
                 transition={{ duration: 0.3, ease: "easeInOut" }}
+                className="min-h-screen"
             >
                 {children}
-            </motion.main>
+            </motion.div>
         </div>
     );
 }
