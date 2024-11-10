@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from 'react';
-import { motion } from 'framer-motion';
+
 import AppLayout from '../components/AppLayout';
 import { LoginForm } from '../components/login/LoginForm';
 import { LoginIllustration } from '../components/login/LoginIllustration';

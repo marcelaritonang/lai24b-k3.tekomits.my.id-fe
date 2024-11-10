@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Navbar from './Navbar';
 import Sidebar from './Sidebar';
@@ -11,27 +11,34 @@ interface AppLayoutProps {
 
 export default function AppLayout({ children }: AppLayoutProps) {
     const [sidebarOpen, setSidebarOpen] = useState(false);
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
 
     const toggleSidebar = () => {
         setSidebarOpen(!sidebarOpen);
     };
 
+    // Hanya render konten setelah component di-mount di client
+    if (!mounted) {
+        return null; // atau loading spinner
+    }
+
     return (
         <div className="min-h-screen relative">
-            {/* Navbar */}
             <Navbar 
                 showSidebarToggle={true}
                 onToggleSidebar={toggleSidebar}
             />
 
-            {/* Sidebar with animation */}
             <AnimatePresence>
                 {sidebarOpen && (
                     <Sidebar onClose={toggleSidebar} />
                 )}
             </AnimatePresence>
 
-            {/* Main content with sidebar margin transition */}
             <motion.div
                 animate={{
                     marginLeft: sidebarOpen ? "240px" : "0"

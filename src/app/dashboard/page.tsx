@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import Image from 'next/image';
+
 import Navbar from '../components/Navbar';
 import AppLayout from '../components/AppLayout';
 export default function DashboardPage() {

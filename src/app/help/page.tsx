@@ -150,9 +150,15 @@ export default function HelpCenterPage() {
                             Our support team is available 24/7 to assist you with any questions or issues.
                         </p>
                         <div className="flex justify-center gap-4">
-                            <button className="px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors">
-                                Contact Support
-                            </button>
+                        <a 
+                            href="https://wa.me/6281398517263" 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors inline-flex items-center gap-2"
+                        >
+                            {/* Emoji sebagai ikon */}
+                            📱 Contact Support
+                        </a>
                             
                         </div>
                     </div>
