@@ -78,7 +78,7 @@ export default function ForgotPasswordPage() {
                                             <span className="font-medium text-purple-600">{email}</span>
                                         </p>
                                         <p className="text-sm text-gray-500 mb-4">
-                                            Didn't receive the email? Check your spam folder or
+                                            "Didn't receive the email? Check your spam folder" 
                                         </p>
                                         <button 
                                             onClick={() => setIsSubmitted(false)}

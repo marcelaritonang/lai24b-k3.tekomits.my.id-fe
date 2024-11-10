@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import AppLayout from '../components/AppLayout';
-import Image from 'next/image';
+
 
 export default function HelpCenterPage() {
     const [searchQuery, setSearchQuery] = useState('');
