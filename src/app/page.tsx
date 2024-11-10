@@ -94,7 +94,7 @@ export default function Home() {
                         animate={{ opacity: 1 }}
                         transition={{ duration: 0.5 }}
                     >
-                        <div className="max-w-4xl mx-auto text-center">
+                        <div className="max-w-3xl w-full mx-auto text-center">
                             <div className="inline-flex p-1 bg-gray-100 rounded-xl mb-8">
                                 {/* Tab Buttons */}
                                 <button
@@ -120,11 +120,11 @@ export default function Home() {
                             </div>
 
                             {activeTab === "shortener" ? (
-                                <div className="flex flex-col sm:flex-row items-center gap-4 bg-white rounded-xl p-6 shadow-xl border border-gray-100">
+                                <div className="flex items-center gap-4 bg-white rounded-xl p-6 shadow-xl border border-gray-100 w-full max-w-full">
                                     <input
                                         type="text"
                                         placeholder="Paste your long URL here..."
-                                        className="w-full sm:flex-grow px-6 py-4 border border-gray-200 rounded-lg text-gray-600 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent text-lg"
+                                        className="w-full px-6 py-4 border border-gray-200 rounded-lg text-gray-600 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent text-lg"
                                     />
                                     <button
                                         className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-8 py-4 rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300 whitespace-nowrap"
@@ -133,11 +133,11 @@ export default function Home() {
                                     </button>
                                 </div>
                             ) : (
-                                <div className="flex flex-col sm:flex-row items-center gap-10 bg-white rounded-xl p-6 shadow-xl border border-gray-100">
+                                <div className="flex items-center gap-10 bg-white rounded-xl p-6 shadow-xl border border-gray-100 w-full max-w-full">
                                     <input
                                         type="text"
                                         placeholder="Enter text or URL for QR code..."
-                                        className="w-full sm:flex-grow px-6 py-4 border border-gray-200 rounded-lg text-gray-600 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent text-lg"
+                                        className="w-full px-6 py-4 border border-gray-200 rounded-lg text-gray-600 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent text-lg"
                                     />
                                     <button
                                         className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-8 py-4 rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300 whitespace-nowrap"
@@ -148,6 +148,7 @@ export default function Home() {
                             )}
                         </div>
                     </motion.section>
+
 
                     {/* Why Choose Lynxs Section */}
                     <motion.section 
