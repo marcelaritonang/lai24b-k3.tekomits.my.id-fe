@@ -20,8 +20,6 @@ const nextConfig: NextConfig = {
     },
     // Untuk development
     reactStrictMode: true,
-    // Untuk optimisasi
-    swcMinify: true,
     // Untuk routing
     async rewrites() {
         return [];
