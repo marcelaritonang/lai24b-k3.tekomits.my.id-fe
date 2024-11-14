@@ -7,6 +7,7 @@ import Navbar from './components/Navbar';
 import Sidebar from './components/Sidebar';
 import AppLayout from './components/AppLayout';
 import Footer from './components/Footer';
+
 export default function Home() {
     const [activeTab, setActiveTab] = useState("shortener");
     const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -26,23 +27,19 @@ export default function Home() {
     return (
         <AppLayout>
             <div className="bg-gradient-to-br from-indigo-50 via-purple-50 to-white min-h-screen">
-                {/* Navbar */}
                 <Navbar 
                     showSidebarToggle={true}
                     onToggleSidebar={toggleSidebar}
                     onGetStartedClick={scrollToShortener}
                 />
 
-                {/* Sidebar */}
                 <AnimatePresence>
                     {sidebarOpen && (
                         <Sidebar onClose={toggleSidebar} />
                     )}
                 </AnimatePresence>
 
-                {/* Main Content with Top Margin */}
                 <div className={`transition-all duration-300 ${sidebarOpen ? 'ml-[280px]' : ''}`}>
-                    {/* Hero Section */}
                     <motion.main 
                         className="flex flex-col md:flex-row items-center justify-between w-full max-w-6xl p-8 mx-auto min-h-screen"
                         initial={{ opacity: 0, y: 20 }}
@@ -72,7 +69,6 @@ export default function Home() {
                             </div>
                         </div>
 
-                        
                         {/* Image Section */}
                         <div className="relative">
                             <div className="absolute inset-0 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-2xl blur-3xl opacity-20 transform -rotate-6"></div>
@@ -86,10 +82,10 @@ export default function Home() {
                         </div>
                     </motion.main>
 
-                    {/* Secondary Section - Full Height */}
+                    {/* Secondary Section - Updated background */}
                     <motion.section 
                         ref={shortenerRef} 
-                        className="w-full bg-gradient-to-br from-white to-indigo-50/40 backdrop-blur-sm py-16 px-8 border-y border-gray-100 min-h-screen flex items-center"
+                        className="w-full backdrop-blur-sm py-16 px-8 min-h-screen flex items-center"
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         transition={{ duration: 0.5 }}
@@ -149,10 +145,9 @@ export default function Home() {
                         </div>
                     </motion.section>
 
-
-                    {/* Why Choose Lynxs Section */}
+                    {/* Why Choose Lynxs Section - Updated background */}
                     <motion.section 
-                        className="w-full py-24 px-8 mt-12 bg-gradient-to-br from-white to-indigo-50 backdrop-blur-sm"
+                        className="w-full py-24 px-8 backdrop-blur-sm"
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         transition={{ duration: 0.5 }}
