@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import Navbar from './components/Navbar';
 import Sidebar from './components/Sidebar';
 import AppLayout from './components/AppLayout';
-import Footer from './components/Footer';
+
 
 export default function Home() {
     const [activeTab, setActiveTab] = useState("shortener");
@@ -18,7 +18,7 @@ export default function Home() {
     };
 
     const scrollToShortener = () => {
-        shortenerRef.current?.scrollIntoView({ 
+        shortenerRef.current?.scrollIntoView({
             behavior: 'smooth',
             block: 'center'
         });
@@ -27,7 +27,7 @@ export default function Home() {
     return (
         <AppLayout>
             <div className="bg-gradient-to-br from-indigo-50 via-purple-50 to-white min-h-screen">
-                <Navbar 
+                <Navbar
                     showSidebarToggle={true}
                     onToggleSidebar={toggleSidebar}
                     onGetStartedClick={scrollToShortener}
@@ -40,7 +40,7 @@ export default function Home() {
                 </AnimatePresence>
 
                 <div className={`transition-all duration-300 ${sidebarOpen ? 'ml-[280px]' : ''}`}>
-                    <motion.main 
+                    <motion.main
                         className="flex flex-col md:flex-row items-center justify-between w-full max-w-6xl p-8 mx-auto min-h-screen"
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
@@ -83,8 +83,8 @@ export default function Home() {
                     </motion.main>
 
                     {/* Secondary Section - Updated background */}
-                    <motion.section 
-                        ref={shortenerRef} 
+                    <motion.section
+                        ref={shortenerRef}
                         className="w-full backdrop-blur-sm py-16 px-8 min-h-screen flex items-center"
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
@@ -94,21 +94,19 @@ export default function Home() {
                             <div className="inline-flex p-1 bg-gray-100 rounded-xl mb-8">
                                 {/* Tab Buttons */}
                                 <button
-                                    className={`px-6 py-3 rounded-lg font-semibold transition-all duration-300 ${
-                                        activeTab === "shortener"
+                                    className={`px-6 py-3 rounded-lg font-semibold transition-all duration-300 ${activeTab === "shortener"
                                             ? "bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg"
                                             : "text-gray-700 hover:bg-gray-200"
-                                    }`}
+                                        }`}
                                     onClick={() => setActiveTab("shortener")}
                                 >
                                     🔗 Link Shortener
                                 </button>
                                 <button
-                                    className={`px-6 py-3 rounded-lg font-semibold transition-all duration-300 ${
-                                        activeTab === "qr"
+                                    className={`px-6 py-3 rounded-lg font-semibold transition-all duration-300 ${activeTab === "qr"
                                             ? "bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg"
                                             : "text-gray-700 hover:bg-gray-200"
-                                    }`}
+                                        }`}
                                     onClick={() => setActiveTab("qr")}
                                 >
                                     📷 QR Code
@@ -146,7 +144,7 @@ export default function Home() {
                     </motion.section>
 
                     {/* Why Choose Lynxs Section - Updated background */}
-                    <motion.section 
+                    <motion.section
                         className="w-full py-24 px-8 backdrop-blur-sm"
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
