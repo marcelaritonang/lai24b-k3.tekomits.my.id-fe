@@ -1,4 +1,4 @@
-
+"use client";
 
 
 import Link from "next/link";
@@ -19,7 +19,7 @@ export default function Sidebar({ onClose }: SidebarProps) {
                 onClick={onClose}
                 className="fixed inset-0 bg-black/20 backdrop-blur-sm z-40"
             />
-
+            
             {/* Sidebar */}
             <motion.div
                 initial={{ x: -240 }}
