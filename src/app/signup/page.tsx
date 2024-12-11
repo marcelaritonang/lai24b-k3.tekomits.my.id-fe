@@ -61,19 +61,42 @@ export default function SignUpPage() {
             setErrors({ ...errors, password: passwordError });
             return;
         }
-
-        // Here you would typically make an API call to register the user
+    
         try {
-            // Simulate API call
-            await new Promise(resolve => setTimeout(resolve, 1000));
-            setIsSubmitted(true);
-            
-            // Redirect to login page after 3 seconds
-            setTimeout(() => {
-                router.push('/login');
-            }, 3000);
-        } catch (error) {
+            console.log('Sending register request...'); // Debug
+            const response = await fetch('http://localhost:8080/v1/auth/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    email: formData.email,
+                    password: formData.password,
+                    first_name: formData.fullName.split(' ')[0], // Perhatikan snake_case
+                    last_name: formData.fullName.split(' ').slice(1).join(' ')
+                })
+            });
+    
+            const data = await response.json();
+            console.log('Response:', data); // Debug
+    
+            if (response.ok) {
+                setIsSubmitted(true);
+                setTimeout(() => {
+                    router.push('/login');
+                }, 3000);
+            } else {
+                setErrors({
+                    ...errors,
+                    email: data.message || 'Failed to register. Please try again.'
+                });
+            }
+        } catch (error: any) {
             console.error('Sign up error:', error);
+            setErrors({
+                ...errors,
+                email: 'Network error. Please try again.'
+            });
         }
     };
 

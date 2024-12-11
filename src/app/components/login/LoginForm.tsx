@@ -1,4 +1,3 @@
-// src/app/components/login/LoginForm.tsx
 "use client";
 
 import { motion } from 'framer-motion';
@@ -10,16 +9,20 @@ interface LoginFormProps {
     setEmail: (email: string) => void;
     setPassword: (password: string) => void;
     handleSubmit: (e: React.FormEvent) => void;
+    error?: string;
+    loading?: boolean;
 }
 
-    export const LoginForm = ({ 
-        email, 
-        password, 
-        setEmail, 
-        setPassword, 
-        handleSubmit 
-    }: LoginFormProps) => {
-        return (    
+export function LoginForm({ 
+    email, 
+    password, 
+    setEmail, 
+    setPassword, 
+    handleSubmit,
+    error,
+    loading 
+}: LoginFormProps) {
+    return (    
         <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
@@ -34,6 +37,12 @@ interface LoginFormProps {
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-4">
+                {error && (
+                    <div className="p-3 text-sm text-red-500 bg-red-50 rounded-lg">
+                        {error}
+                    </div>
+                )}
+                
                 <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
                         Email
@@ -45,6 +54,7 @@ interface LoginFormProps {
                         className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition"
                         placeholder="Enter your email"
                         required
+                        disabled={loading}
                     />
                 </div>
 
@@ -59,6 +69,7 @@ interface LoginFormProps {
                         className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition"
                         placeholder="Enter your password"
                         required
+                        disabled={loading}
                     />
                 </div>
 
@@ -68,6 +79,7 @@ interface LoginFormProps {
                             type="checkbox"
                             id="remember"
                             className="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded"
+                            disabled={loading}
                         />
                         <label htmlFor="remember" className="ml-2 text-sm text-gray-600">
                             Remember me
@@ -79,17 +91,20 @@ interface LoginFormProps {
                 </div>
 
                 <motion.button
-                    whileHover={{ scale: 1.01 }}
-                    whileTap={{ scale: 0.99 }}
+                    whileHover={{ scale: loading ? 1 : 1.01 }}
+                    whileTap={{ scale: loading ? 1 : 0.99 }}
                     type="submit"
-                    className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-3 rounded-lg hover:opacity-90 transition duration-200 font-medium"
+                    className={`w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-3 rounded-lg transition duration-200 font-medium ${
+                        loading ? 'opacity-70 cursor-not-allowed' : 'hover:opacity-90'
+                    }`}
+                    disabled={loading}
                 >
-                    Sign In
+                    {loading ? 'Signing in...' : 'Sign In'}
                 </motion.button>
             </form>
 
             <p className="text-center text-sm text-gray-600">
-            "Don&apos;t have an account?"
+                Don&apos;t have an account?{' '}
                 <Link href="/signup" className="text-purple-600 hover:text-purple-700 font-medium">
                     Sign up for free
                 </Link>

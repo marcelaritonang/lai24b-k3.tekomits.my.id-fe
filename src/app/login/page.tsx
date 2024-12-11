@@ -1,18 +1,51 @@
 "use client";
 
 import { useState } from 'react';
-
+import { useRouter } from 'next/navigation';
 import AppLayout from '../components/AppLayout';
 import { LoginForm } from '../components/login/LoginForm';
 import { LoginIllustration } from '../components/login/LoginIllustration';
 
 export default function LoginPage() {
+    const router = useRouter();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        console.log('Login attempt with:', { email, password });
+        setLoading(true);
+        setError('');
+    
+        try {
+            const response = await fetch('http://localhost:8080/v1/auth/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    email,
+                    password
+                })
+            });
+    
+            const data = await response.json();
+            console.log('Login response:', data); // Debug respons
+
+            // Pastikan token ada dalam respons
+            if (response.ok && data?.data?.token) {
+                localStorage.setItem('token', data.data.token);
+                router.push('/dashboard');
+            } else {
+                setError(data.message || 'Login failed');
+            }
+        } catch (error) {
+            console.error('Login error:', error);
+            setError('Failed to login. Please try again.');
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
@@ -26,6 +59,8 @@ export default function LoginPage() {
                             setEmail={setEmail}
                             setPassword={setPassword}
                             handleSubmit={handleSubmit}
+                            error={error}
+                            loading={loading}
                         />
                         <LoginIllustration />
                     </div>

@@ -1,196 +1,270 @@
 "use client";
 
-import { useState } from 'react';
-import { motion } from 'framer-motion';
+import { useEffect, useState } from "react";
+import Navbar from "../components/Navbar";
+import AppLayout from "../components/AppLayout";
 
-import Navbar from '../components/Navbar';
-import AppLayout from '../components/AppLayout';
+interface Url {
+  id: string;
+  long_url: string;
+  short_url: string;
+  clicks: number;
+  created_at: string;
+}
+
 export default function DashboardPage() {
-    const [period, setPeriod] = useState('7d'); // '24h', '7d', '30d', 'all'
+  const [urls, setUrls] = useState<Url[]>([]); // State for URLs
+  const [inputUrl, setInputUrl] = useState(""); // Input URL
+  const [loading, setLoading] = useState(false); // Loading state
+  const [error, setError] = useState(""); // Error message
+  const [successMessage, setSuccessMessage] = useState(""); // Success message
+  const [totalLinks, setTotalLinks] = useState(0); // Total links
 
-    // Dummy data - replace with real data
-    const recentLinks = [
+  // Fetch data on component load
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      window.location.href = "/login";
+    } else {
+      fetchUrls(token);
+    }
+  }, []);
+
+  // Fetch URLs from API
+  const fetchUrls = async (token: string) => {
+    setLoading(true);
+    setError("");
+    try {
+      const response = await fetch(
+        "http://localhost:8080/v1/api/urls?page=1&per_page=10",
         {
-            id: 1,
-            originalUrl: 'https://verylongurl.com/example/path/to/something',
-            shortUrl: 'lynxs.com/ab123',
-            clicks: 145,
-            created: '2 hours ago',
-            status: 'active'
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        setError(errorData.message || "Failed to fetch URLs");
+        return;
+      }
+
+      const data = await response.json();
+      console.log("Fetched Data:", data); // Debugging fetched data
+      if (data.data && Array.isArray(data.data)) {
+        const urls = data.data.map((item: any) => item.url); // Extract 'url' object from each entry
+        setUrls(urls);
+        setTotalLinks(data.meta?.total || 0); // Update total links
+      } else {
+        setUrls([]);
+      }
+    } catch (error) {
+      setError("Network error. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Create a short URL
+  const handleShorten = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setError("");
+    setSuccessMessage("");
+
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        window.location.href = "/login";
+        return;
+      }
+
+      const response = await fetch("http://localhost:8080/v1/api/urls", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
         },
-        // Add more dummy data
-    ];
+        body: JSON.stringify({ long_url: inputUrl }),
+      });
 
-    return (
-        <AppLayout>
-        <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-white">
-            <Navbar showSidebarToggle={true} />
-            
-            <main className="pt-20 px-4 sm:px-6 lg:px-8">
-                <div className="max-w-7xl mx-auto">
-                    {/* Header Section */}
-                    <div className="mb-8">
-                        <h1 className="text-2xl font-bold text-gray-800">Dashboard</h1>
-                        <p className="text-gray-600">Welcome back, Rianco!</p>
-                    </div>
+      if (!response.ok) {
+        const errorData = await response.json();
+        setError(errorData.message || "Failed to create short URL");
+        return;
+      }
 
-                    {/* Quick Actions */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-                        <div className="p-6 bg-white rounded-xl shadow-sm border border-gray-100">
-                            <h2 className="text-lg font-semibold mb-4">Create New Link</h2>
-                            <div className="flex gap-2">
-                                <input
-                                    type="text"
-                                    placeholder="Paste your URL here..."
-                                    className="flex-1 px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                                />
-                                <button className="px-6 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors">
-                                    Shorten
-                                </button>
-                            </div>
-                        </div>
-                        <div className="p-6 bg-white rounded-xl shadow-sm border border-gray-100">
-                            <h2 className="text-lg font-semibold mb-4">Generate QR Code</h2>
-                            <div className="flex gap-2">
-                                <input
-                                    type="text"
-                                    placeholder="Enter URL or text..."
-                                    className="flex-1 px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                                />
-                                <button className="px-6 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors">
-                                    Generate
-                                </button>
-                            </div>
-                        </div>
-                    </div>
+      const data = await response.json();
+      setUrls((prevUrls) => [data.data, ...prevUrls]);
+      setInputUrl(""); // Reset input
+      setSuccessMessage("Short URL created successfully!");
+      setTotalLinks((prevTotal) => prevTotal + 1); // Update total links
+    } catch (error) {
+      setError("Network error. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
-                    {/* Stats Overview */}
-                    <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-                        <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            className="p-6 bg-white rounded-xl shadow-sm border border-gray-100"
+  // Delete a URL
+  const handleDelete = async (id: string) => {
+    if (!id) {
+      setError("Invalid ID for deletion.");
+      return;
+    }
+    setLoading(true);
+    setError("");
+    setSuccessMessage("");
+
+    try {
+      const token = localStorage.getItem("token");
+      const response = await fetch(`http://localhost:8080/v1/api/urls/${id}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        setError(errorData.message || "Failed to delete URL");
+        return;
+      }
+
+      setUrls((prevUrls) => prevUrls.filter((url) => url.id !== id)); // Remove URL from state
+      setTotalLinks((prevTotal) => prevTotal - 1); // Update total links
+      setSuccessMessage("URL deleted successfully!");
+    } catch (error) {
+      setError("Network error. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <AppLayout>
+      <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-white">
+        <Navbar showSidebarToggle={true} />
+
+        <main className="pt-20 px-4 sm:px-6 lg:px-8">
+          <div className="max-w-7xl mx-auto">
+            {/* Header Section */}
+            <div className="mb-8">
+              <h1 className="text-2xl font-bold text-gray-800">Dashboard</h1>
+              <p className="text-gray-600">Welcome back, Rianco!</p>
+            </div>
+
+            {/* Quick Actions */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+              <div className="p-6 bg-white rounded-xl shadow-sm border border-gray-100">
+                <h2 className="text-lg font-semibold mb-4">Create New Link</h2>
+                <form onSubmit={handleShorten} className="flex gap-2">
+                  <input
+                    type="text"
+                    value={inputUrl}
+                    onChange={(e) => setInputUrl(e.target.value)}
+                    placeholder="Paste your URL here..."
+                    className="flex-1 px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                    disabled={loading}
+                  />
+                  <button
+                    type="submit"
+                    className="px-6 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors disabled:opacity-50"
+                    disabled={loading}
+                  >
+                    {loading ? "Shortening..." : "Shorten"}
+                  </button>
+                </form>
+                {error && <p className="mt-2 text-sm text-red-500">{error}</p>}
+                {successMessage && (
+                  <p className="mt-2 text-sm text-green-500">
+                    {successMessage}
+                  </p>
+                )}
+              </div>
+
+              {/* Total Links */}
+              <div className="p-6 bg-white rounded-xl shadow-sm border border-gray-100">
+                <h2 className="text-lg font-semibold mb-4">Statistics</h2>
+                <p className="mb-4">
+                  Total Links: <span className="font-bold">{totalLinks}</span>
+                </p>
+              </div>
+            </div>
+
+            {/* Recent Links Table */}
+            <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden mb-8">
+              <div className="p-6 border-b border-gray-100">
+                <h2 className="text-lg font-semibold">Recent Links</h2>
+              </div>
+              <div className="overflow-x-auto">
+                <table className="w-full">
+                  <thead className="bg-gray-50">
+                    <tr>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Original URL
+                      </th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Short Link
+                      </th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Clicks
+                      </th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Actions
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-gray-200">
+                    {urls.length === 0 ? (
+                      <tr>
+                        <td
+                          colSpan={4}
+                          className="text-center py-4 text-gray-500"
                         >
-                            <div className="flex justify-between items-start mb-4">
-                                <h3 className="text-gray-500">Total Links</h3>
-                                <span className="text-green-500 text-sm">↑12%</span>
-                            </div>
-                            <p className="text-3xl font-bold text-gray-800">1,234</p>
-                        </motion.div>
-
-                        <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.1 }}
-                            className="p-6 bg-white rounded-xl shadow-sm border border-gray-100"
-                        >
-                            <div className="flex justify-between items-start mb-4">
-                                <h3 className="text-gray-500">Total Clicks</h3>
-                                <span className="text-green-500 text-sm">↑8%</span>
-                            </div>
-                            <p className="text-3xl font-bold text-gray-800">5,678</p>
-                        </motion.div>
-
-                        <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.2 }}
-                            className="p-6 bg-white rounded-xl shadow-sm border border-gray-100"
-        >
-                            <div className="flex justify-between items-start mb-4">
-                                <h3 className="text-gray-500">Active QR Codes</h3>
-                                <span className="text-green-500 text-sm">↑15%</span>
-                            </div>
-                                <p className="text-3xl font-bold text-gray-800">123</p>
-                            </motion.div>
-
-                            <motion.div
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: 0.3 }}
-                                className="p-6 bg-white rounded-xl shadow-sm border border-gray-100"
+                          No short URLs found. Create one above!
+                        </td>
+                      </tr>
+                    ) : (
+                      urls.map((url) => (
+                        <tr key={url.id} className="hover:bg-gray-50">
+                          <td className="px-6 py-4 text-sm text-gray-500 truncate max-w-xs">
+                            {url.long_url}
+                          </td>
+                          <td className="px-6 py-4">
+                            <a
+                              href={url.short_url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-purple-600 hover:text-purple-900 text-sm"
                             >
-                                <div className="flex justify-between items-start mb-4">
-                                    <h3 className="text-gray-500">Avg. CTR</h3>
-                                    <span className="text-red-500 text-sm">↓3%</span>
-                                </div>
-                                <p className="text-3xl font-bold text-gray-800">123</p>
-                        </motion.div>
-                    </div>
-
-                    {/* Recent Links Table */}
-                    <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden mb-8">
-                        <div className="p-6 border-b border-gray-100">
-                            <h2 className="text-lg font-semibold">Recent Links</h2>
-                        </div>
-                        <div className="overflow-x-auto">
-                            <table className="w-full">
-                                <thead className="bg-gray-50">
-                                    <tr>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Original URL</th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Short Link</th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Clicks</th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Created</th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody className="divide-y divide-gray-200">
-                                    {recentLinks.map((link) => (
-                                        <tr key={link.id} className="hover:bg-gray-50">
-                                            <td className="px-6 py-4 text-sm text-gray-500 truncate max-w-xs">
-                                                {link.originalUrl}
-                                            </td>
-                                            <td className="px-6 py-4">
-                                                <a href="#" className="text-purple-600 hover:text-purple-900 text-sm">
-                                                    {link.shortUrl}
-                                                </a>
-                                            </td>
-                                            <td className="px-6 py-4 text-sm text-gray-500">
-                                                {link.clicks}
-                                            </td>
-                                            <td className="px-6 py-4 text-sm text-gray-500">
-                                                {link.created}
-                                            </td>
-                                            <td className="px-6 py-4">
-                                                <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                                                    {link.status}
-                                                </span>
-                                            </td>
-                                            <td className="px-6 py-4">
-                                                <div className="flex items-center gap-2">
-                                                    <button className="text-gray-400 hover:text-purple-600">
-                                                        📋
-                                                    </button>
-                                                    <button className="text-gray-400 hover:text-purple-600">
-                                                        📊
-                                                    </button>
-                                                    <button className="text-gray-400 hover:text-purple-600">
-                                                        ⚙️
-                                                    </button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-
-                    {/* Bottom Section - could include charts or additional stats */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-                        <div className="p-6 bg-white rounded-xl shadow-sm border border-gray-100">
-                            <h2 className="text-lg font-semibold mb-4">Top Performing Links</h2>
-                            {/* Add chart or list here */}
-                        </div>
-                        <div className="p-6 bg-white rounded-xl shadow-sm border border-gray-100">
-                            <h2 className="text-lg font-semibold mb-4">Traffic Sources</h2>
-                            {/* Add chart or list here */}
-                        </div>
-                    </div>
-                </div>
-            </main>
-        </div>
-        </AppLayout>
-    );
+                              {url.short_url}
+                            </a>
+                          </td>
+                          <td className="px-6 py-4 text-sm text-gray-500">
+                            {url.clicks || 0}
+                          </td>
+                          <td className="px-6 py-4">
+                            <button
+                              onClick={() => handleDelete(url.id)}
+                              className="text-red-600 hover:text-red-800 text-sm"
+                              disabled={loading}
+                            >
+                              Delete
+                            </button>
+                          </td>
+                        </tr>
+                      ))
+                    )}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
+    </AppLayout>
+  );
 }
