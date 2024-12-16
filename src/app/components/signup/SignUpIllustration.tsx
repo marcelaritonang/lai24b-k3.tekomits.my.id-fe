@@ -12,6 +12,7 @@ export const SignUpIllustration: React.FC = () => {
                 width={400}
                 height={400}
                 className="rounded-lg shadow-lg"
+                unoptimized
             />
         </div>
     );

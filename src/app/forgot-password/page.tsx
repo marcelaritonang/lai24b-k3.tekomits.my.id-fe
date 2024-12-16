@@ -112,6 +112,7 @@ export default function ForgotPasswordPage() {
                                     width={400}
                                     height={400}
                                     className="object-contain"
+                                    unoptimized
                                 />
                             </motion.div>
                         </div>

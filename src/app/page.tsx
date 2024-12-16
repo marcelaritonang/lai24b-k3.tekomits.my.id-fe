@@ -78,6 +78,7 @@ export default function Home() {
                                 width={400}
                                 height={400}
                                 className="rounded-2xl shadow-2xl relative z-10"
+                                unoptimized
                             />
                         </div>
                     </motion.main>

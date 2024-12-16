@@ -22,6 +22,7 @@ export const LoginIllustration = () => {
                         width={300}
                         height={300}
                         className="object-cover relative z-10"
+                        unoptimized
                     />
                 </div>
             </div>

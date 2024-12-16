@@ -64,7 +64,7 @@ export default function SignUpPage() {
     
         try {
             console.log('Sending register request...'); // Debug
-            const response = await fetch('http://localhost:8080/v1/auth/register', {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/v1/auth/register`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -234,6 +234,7 @@ export default function SignUpPage() {
                                     width={400}
                                     height={400}
                                     className="object-contain"
+                                    unoptimized
                                 />
                             </motion.div>
                         </div>

@@ -1,4 +1,4 @@
-FROM node:18-alpine
+FROM node:18-alpine AS builder
 
 WORKDIR /app
 
@@ -14,12 +14,5 @@ COPY . .
 # Build the app
 RUN npm run build
 
-# Set environment variables
-ENV NODE_ENV=production
-ENV PORT=3000
 
-# Expose port
-EXPOSE 3000
-
-# Start the application
-CMD ["npm", "start"]
+CMD ["npm", "run", "dev"]

@@ -1,6 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+    //output:"export",
     eslint: {
         ignoreDuringBuilds: true,
     },
@@ -46,8 +47,7 @@ const nextConfig: NextConfig = {
             },
         ];
     },
-    // Untuk Output
-    output: 'standalone',
+    
     // Untuk Compression
     compress: true,
     // Untuk Experimental Features

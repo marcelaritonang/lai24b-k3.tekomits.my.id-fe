@@ -12,6 +12,8 @@ interface Url {
   created_at: string;
 }
 
+const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL?.replace(/\/$/, '');
+
 export default function DashboardPage() {
   const [urls, setUrls] = useState<Url[]>([]); // State for URLs
   const [inputUrl, setInputUrl] = useState(""); // Input URL
@@ -36,7 +38,7 @@ export default function DashboardPage() {
     setError("");
     try {
       const response = await fetch(
-        "http://localhost:8080/v1/api/urls?page=1&per_page=10",
+        `${BASE_URL}/v1/api/urls?page=1&per_page=10`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -81,7 +83,7 @@ export default function DashboardPage() {
         return;
       }
 
-      const response = await fetch("http://localhost:8080/v1/api/urls", {
+      const response = await fetch(`${BASE_URL}/v1/api/urls`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -120,7 +122,7 @@ export default function DashboardPage() {
 
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch(`http://localhost:8080/v1/api/urls/${id}`, {
+      const response = await fetch(`${BASE_URL}/v1/api/urls/${id}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`,
