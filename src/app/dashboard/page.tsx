@@ -1,8 +1,9 @@
 "use client";
-
-import { useEffect, useState } from "react";
-import Navbar from "../components/Navbar";
+import React, { useEffect, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Link2, Loader2, ExternalLink, Trash2 } from "lucide-react";
 import AppLayout from "../components/AppLayout";
+import Navbar from "../components/Navbar";
 
 interface Url {
   id: string;
@@ -15,14 +16,13 @@ interface Url {
 const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL?.replace(/\/$/, '');
 
 export default function DashboardPage() {
-  const [urls, setUrls] = useState<Url[]>([]); // State for URLs
-  const [inputUrl, setInputUrl] = useState(""); // Input URL
-  const [loading, setLoading] = useState(false); // Loading state
-  const [error, setError] = useState(""); // Error message
-  const [successMessage, setSuccessMessage] = useState(""); // Success message
-  const [totalLinks, setTotalLinks] = useState(0); // Total links
+  const [urls, setUrls] = useState<Url[]>([]);
+  const [inputUrl, setInputUrl] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
+  const [totalLinks, setTotalLinks] = useState(0);
 
-  // Fetch data on component load
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!token) {
@@ -32,20 +32,16 @@ export default function DashboardPage() {
     }
   }, []);
 
-  // Fetch URLs from API
   const fetchUrls = async (token: string) => {
     setLoading(true);
     setError("");
     try {
-      const response = await fetch(
-        `${BASE_URL}/v1/api/urls?page=1&per_page=10`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const response = await fetch(`${BASE_URL}/v1/api/urls?page=1&per_page=10`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
 
       if (!response.ok) {
         const errorData = await response.json();
@@ -54,13 +50,10 @@ export default function DashboardPage() {
       }
 
       const data = await response.json();
-      console.log("Fetched Data:", data); // Debugging fetched data
       if (data.data && Array.isArray(data.data)) {
-        const urls = data.data.map((item: any) => item.url); // Extract 'url' object from each entry
+        const urls = data.data.map((item: any) => item.url);
         setUrls(urls);
-        setTotalLinks(data.meta?.total || 0); // Update total links
-      } else {
-        setUrls([]);
+        setTotalLinks(data.meta?.total || 0);
       }
     } catch (error) {
       setError("Network error. Please try again.");
@@ -69,8 +62,33 @@ export default function DashboardPage() {
     }
   };
 
-  // Create a short URL
-  const handleShorten = async (e: React.FormEvent) => {
+  // Function to handle click tracking
+const handleLinkClick = async (urlId: string) => {
+  try {
+    const token = localStorage.getItem("token");
+    // Send request to track click
+    await fetch(`${BASE_URL}/v1/api/urls/${urlId}/click`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    });
+    
+    // Update local state to reflect new click count
+    setUrls(prevUrls =>
+      prevUrls.map(url =>
+        url.id === urlId
+          ? { ...url, clicks: (url.clicks || 0) + 1 }
+          : url
+      )
+    );
+  } catch (error) {
+    console.error("Error tracking click:", error);
+  }
+};
+
+const handleShorten = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError("");
@@ -100,9 +118,9 @@ export default function DashboardPage() {
 
       const data = await response.json();
       setUrls((prevUrls) => [data.data, ...prevUrls]);
-      setInputUrl(""); // Reset input
+      setInputUrl("");
       setSuccessMessage("Short URL created successfully!");
-      setTotalLinks((prevTotal) => prevTotal + 1); // Update total links
+      setTotalLinks((prevTotal) => prevTotal + 1);
     } catch (error) {
       setError("Network error. Please try again.");
     } finally {
@@ -110,7 +128,6 @@ export default function DashboardPage() {
     }
   };
 
-  // Delete a URL
   const handleDelete = async (id: string) => {
     if (!id) {
       setError("Invalid ID for deletion.");
@@ -135,8 +152,8 @@ export default function DashboardPage() {
         return;
       }
 
-      setUrls((prevUrls) => prevUrls.filter((url) => url.id !== id)); // Remove URL from state
-      setTotalLinks((prevTotal) => prevTotal - 1); // Update total links
+      setUrls((prevUrls) => prevUrls.filter((url) => url.id !== id));
+      setTotalLinks((prevTotal) => prevTotal - 1);
       setSuccessMessage("URL deleted successfully!");
     } catch (error) {
       setError("Network error. Please try again.");
@@ -147,123 +164,166 @@ export default function DashboardPage() {
 
   return (
     <AppLayout>
-      <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-white">
+      <div className="min-h-screen bg-gradient-to-br from-purple-50 via-indigo-50 to-white">
         <Navbar showSidebarToggle={true} />
 
         <main className="pt-20 px-4 sm:px-6 lg:px-8">
           <div className="max-w-7xl mx-auto">
-            {/* Header Section */}
-            <div className="mb-8">
-              <h1 className="text-2xl font-bold text-gray-800">Dashboard</h1>
-              <p className="text-gray-600">Welcome back, Rianco!</p>
-            </div>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="mb-8"
+            >
+              <h1 className="text-4xl font-bold bg-gradient-to-r from-purple-600 via-purple-400 to-indigo-400 bg-clip-text text-transparent">
+                Dashboard
+              </h1>
+              <p className="text-gray-600 text-lg mt-2">Welcome back, Rianco!</p>
+            </motion.div>
 
-            {/* Quick Actions */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-              <div className="p-6 bg-white rounded-xl shadow-sm border border-gray-100">
-                <h2 className="text-lg font-semibold mb-4">Create New Link</h2>
-                <form onSubmit={handleShorten} className="flex gap-2">
-                  <input
-                    type="text"
-                    value={inputUrl}
-                    onChange={(e) => setInputUrl(e.target.value)}
-                    placeholder="Paste your URL here..."
-                    className="flex-1 px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                    disabled={loading}
-                  />
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                className="p-8 bg-white rounded-xl shadow-sm border border-purple-100"
+              >
+                <h2 className="text-xl font-semibold mb-4 text-gray-800">Create New Link</h2>
+                <form onSubmit={handleShorten} className="space-y-4">
+                  <div className="relative">
+                    <Link2 className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
+                    <input
+                      type="text"
+                      value={inputUrl}
+                      onChange={(e) => setInputUrl(e.target.value)}
+                      placeholder="Paste your URL here..."
+                      className="w-full pl-12 pr-4 py-4 border border-purple-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-400 text-gray-800"
+                      disabled={loading}
+                    />
+                  </div>
                   <button
                     type="submit"
-                    className="px-6 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors disabled:opacity-50"
+                    className="w-full bg-gradient-to-r from-purple-600 via-purple-400 to-indigo-400 text-white px-6 py-4 rounded-xl font-semibold shadow-lg hover:opacity-90 transition-all duration-300 disabled:opacity-50 flex items-center justify-center gap-2"
                     disabled={loading}
                   >
-                    {loading ? "Shortening..." : "Shorten"}
+                    {loading && <Loader2 className="animate-spin" size={20} />}
+                    {loading ? "Shortening..." : "Shorten URL"}
                   </button>
                 </form>
-                {error && <p className="mt-2 text-sm text-red-500">{error}</p>}
-                {successMessage && (
-                  <p className="mt-2 text-sm text-green-500">
-                    {successMessage}
-                  </p>
-                )}
-              </div>
+                <AnimatePresence>
+                  {error && (
+                    <motion.p
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0 }}
+                      className="mt-4 text-sm text-red-500 bg-red-50 p-3 rounded-lg"
+                    >
+                      {error}
+                    </motion.p>
+                  )}
+                  {successMessage && (
+                    <motion.p
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0 }}
+                      className="mt-4 text-sm text-green-500 bg-green-50 p-3 rounded-lg"
+                    >
+                      {successMessage}
+                    </motion.p>
+                  )}
+                </AnimatePresence>
+              </motion.div>
 
-              {/* Total Links */}
-              <div className="p-6 bg-white rounded-xl shadow-sm border border-gray-100">
-                <h2 className="text-lg font-semibold mb-4">Statistics</h2>
-                <p className="mb-4">
-                  Total Links: <span className="font-bold">{totalLinks}</span>
-                </p>
-              </div>
+              <motion.div
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                className="p-8 bg-white rounded-xl shadow-sm border border-purple-100"
+              >
+                <h2 className="text-xl font-semibold mb-4 text-gray-800">Statistics</h2>
+                <div className="space-y-4">
+                  <div className="bg-gradient-to-r from-purple-50 to-indigo-50 p-6 rounded-lg">
+                    <p className="text-gray-600">Total Links Created</p>
+                    <p className="text-4xl font-bold text-gray-800 mt-2">{totalLinks}</p>
+                  </div>
+                </div>
+              </motion.div>
             </div>
 
-            {/* Recent Links Table */}
-            <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden mb-8">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="bg-white rounded-xl shadow-sm border border-purple-100 overflow-hidden"
+            >
               <div className="p-6 border-b border-gray-100">
-                <h2 className="text-lg font-semibold">Recent Links</h2>
+                <h2 className="text-xl font-semibold text-gray-800">Recent Links</h2>
               </div>
               <div className="overflow-x-auto">
                 <table className="w-full">
-                  <thead className="bg-gray-50">
+                  <thead className="bg-gradient-to-r from-purple-50 to-indigo-50">
                     <tr>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Original URL
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Short Link
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Clicks
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Actions
-                      </th>
+                      <th className="px-6 py-4 text-left text-sm font-semibold text-gray-600">Original URL</th>
+                      <th className="px-6 py-4 text-left text-sm font-semibold text-gray-600">Short Link</th>
+                      <th className="px-6 py-4 text-left text-sm font-semibold text-gray-600">Clicks</th>
+                      <th className="px-6 py-4 text-left text-sm font-semibold text-gray-600">Actions</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-gray-200">
-                    {urls.length === 0 ? (
-                      <tr>
-                        <td
-                          colSpan={4}
-                          className="text-center py-4 text-gray-500"
+                  <tbody className="divide-y divide-gray-100">
+                    <AnimatePresence>
+                      {urls.length === 0 ? (
+                        <motion.tr
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          exit={{ opacity: 0 }}
                         >
-                          No short URLs found. Create one above!
-                        </td>
-                      </tr>
-                    ) : (
-                      urls.map((url) => (
-                        <tr key={url.id} className="hover:bg-gray-50">
-                          <td className="px-6 py-4 text-sm text-gray-500 truncate max-w-xs">
-                            {url.long_url}
+                          <td colSpan={4} className="text-center py-8 text-gray-500">
+                            No short URLs found. Create one above!
                           </td>
-                          <td className="px-6 py-4">
-                            <a
-                              href={url.short_url}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="text-purple-600 hover:text-purple-900 text-sm"
-                            >
-                              {url.short_url}
-                            </a>
-                          </td>
-                          <td className="px-6 py-4 text-sm text-gray-500">
-                            {url.clicks || 0}
-                          </td>
-                          <td className="px-6 py-4">
-                            <button
-                              onClick={() => handleDelete(url.id)}
-                              className="text-red-600 hover:text-red-800 text-sm"
-                              disabled={loading}
-                            >
-                              Delete
-                            </button>
-                          </td>
-                        </tr>
-                      ))
-                    )}
+                        </motion.tr>
+                      ) : (
+                        urls.map((url, index) => (
+                          <motion.tr
+                            key={url.id}
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -20 }}
+                            transition={{ delay: index * 0.1 }}
+                            className="hover:bg-gray-50"
+                          >
+                            <td className="px-6 py-4 text-sm text-gray-500 truncate max-w-xs">
+                              {url.long_url}
+                            </td>
+                            <td className="px-6 py-4">
+                              <a
+                                href={url.short_url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                onClick={() => handleLinkClick(url.id)}
+                                className="text-purple-600 hover:text-purple-800 text-sm flex items-center gap-2"
+                              >
+                                {url.short_url}
+                                <ExternalLink size={14} />
+                              </a>
+                            </td>
+                            <td className="px-6 py-4">
+                              <span className="text-sm font-medium bg-purple-100 text-purple-800 py-1 px-3 rounded-full">
+                                {url.clicks || 0} clicks
+                              </span>
+                            </td>
+                            <td className="px-6 py-4">
+                              <button
+                                onClick={() => handleDelete(url.id)}
+                                className="text-red-600 hover:text-red-800 p-2 rounded-lg hover:bg-red-50 transition-colors"
+                                disabled={loading}
+                              >
+                                <Trash2 size={18} />
+                              </button>
+                            </td>
+                          </motion.tr>
+                        ))
+                      )}
+                    </AnimatePresence>
                   </tbody>
                 </table>
               </div>
-            </div>
+            </motion.div>
           </div>
         </main>
       </div>

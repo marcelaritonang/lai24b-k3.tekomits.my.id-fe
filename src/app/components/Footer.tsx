@@ -11,10 +11,14 @@ export default function Footer() {
                     {/* Brand Section */}
                     <div className="space-y-4">
                         <div className="flex items-center gap-2">
-                            <div className="w-10 h-10 rounded-xl bg-purple-600 flex items-center justify-center text-white font-bold text-xl">
-                                L
-                            </div>
-                            <span className="text-2xl font-bold text-purple-600">Lynxs</span>
+                            <Link href="/" className="flex items-center gap-2">
+                            <img
+                                src="/static/logo.png"
+                                alt="Lynx Logo"
+                                className="w-11 h-11 rounded-xl shadow-md"
+                            />
+                            <span className="text-2xl font-bold text-[#8B5CF6]">Lynx</span>
+                            </Link>
                         </div>
                         <p className="text-gray-500">
                             Transform your links into powerful insights with our advanced URL shortening solution.

@@ -1,8 +1,9 @@
 "use client";
 
-import Image from "next/image";
-import { useState, useRef } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import React, { useState, useRef } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import Image from 'next/image';
+import { Link2 } from 'lucide-react';
 import Navbar from './components/Navbar';
 import Sidebar from './components/Sidebar';
 import AppLayout from './components/AppLayout';
@@ -11,196 +12,242 @@ import Footer from './components/Footer';
 export default function Home() {
     const [activeTab, setActiveTab] = useState("shortener");
     const [sidebarOpen, setSidebarOpen] = useState(false);
-    const shortenerRef = useRef<HTMLDivElement>(null);
+    const urlSectionRef = useRef<HTMLDivElement>(null);
 
-    const toggleSidebar = () => {
-        setSidebarOpen(!sidebarOpen);
-    };
-
-    const scrollToShortener = () => {
-        shortenerRef.current?.scrollIntoView({ 
-            behavior: 'smooth',
-            block: 'center'
-        });
+    const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
+    
+    const scrollToUrlSection = () => {
+        urlSectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     };
 
     return (
         <AppLayout>
-            <div className="bg-gradient-to-br from-indigo-50 via-purple-50 to-white min-h-screen">
+            <div className="min-h-screen bg-white">
                 <Navbar 
                     showSidebarToggle={true}
                     onToggleSidebar={toggleSidebar}
-                    onGetStartedClick={scrollToShortener}
+                    onGetStartedClick={scrollToUrlSection}
                 />
 
                 <AnimatePresence>
-                    {sidebarOpen && (
-                        <Sidebar onClose={toggleSidebar} />
-                    )}
+                    {sidebarOpen && <Sidebar onClose={toggleSidebar} />}
                 </AnimatePresence>
 
                 <div className={`transition-all duration-300 ${sidebarOpen ? 'ml-[280px]' : ''}`}>
-                    <motion.main 
-                        className="flex flex-col md:flex-row items-center justify-between w-full max-w-6xl p-8 mx-auto min-h-screen"
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.5 }}
-                    >
-                        {/* Text Section */}
-                        <div className="text-center md:text-left max-w-md">
-                            <h2 className="text-5xl font-extrabold mb-4 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
-                                LYNXS SHORT URL AND QR CODE GENERATOR
-                            </h2>
-                            <p className="text-gray-600 mb-8 leading-relaxed text-lg">
-                                Transform your links into powerful insights. Track, analyze, and optimize your customer engagement with our advanced URL shortening solution.
+                    {/* Initial Hero Section */}
+                    <section className="min-h-screen flex items-center justify-center px-4 pt-20 bg-gradient-to-b from-gray-50 to-white">
+                        <div className="max-w-6xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-12">
+                            {/* Text Content */}
+                            <motion.div
+                            className="flex-1 text-center lg:text-left"
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            >
+                            <h1 className="text-5xl lg:text-6xl font-bold tracking-tight text-gray-900 mb-6">
+                                Shorten your links with{' '}
+                                <span className="bg-gradient-to-r from-purple-600 via-purple-400 to-indigo-400 bg-clip-text text-transparent">
+                                LYNX
+                                </span>
+                            </h1>
+                            <p className="text-gray-600 text-lg lg:text-xl max-w-2xl lg:mx-0 mx-auto mb-8">
+                                Transform your links into powerful insights. Track and analyze your customer 
+                                engagement with our advanced URL shortening solution.
                             </p>
-                            <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+                            <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
                                 <button
-                                    onClick={scrollToShortener}
-                                    className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-8 py-4 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
+                                onClick={scrollToUrlSection}
+                                className="bg-gradient-to-r from-purple-600 via-purple-400 to-indigo-400 text-white px-8 py-4 rounded-xl font-semibold shadow-lg hover:opacity-90 transition-all duration-300"
                                 >
-                                    Get Started Free
+                                Get Started Free
                                 </button>
                                 <button
-                                    className="border-2 border-purple-500 text-purple-600 px-8 py-4 rounded-xl font-semibold hover:bg-purple-50 transition-all duration-300"
+                                className="bg-white text-gray-900 px-8 py-4 rounded-xl font-semibold hover:bg-gray-50 transition-all duration-300 shadow-sm"
                                 >
-                                    View Pricing
+                                View Pricing
                                 </button>
                             </div>
-                        </div>
+                            </motion.div>
 
-                        {/* Image Section */}
-                        <div className="relative">
-                            <div className="absolute inset-0 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-2xl blur-3xl opacity-20 transform -rotate-6"></div>
-                            <Image
-                                src="/static/qr3.jpg"
-                                alt="QR Code Illustration"
-                                width={400}
-                                height={400}
-                                className="rounded-2xl shadow-2xl relative z-10"
-                                unoptimized
-                            />
+                            {/* Decorative Elements */}
+                            <motion.div
+                            className="hidden lg:block flex-1 relative"
+                            initial={{ opacity: 0, scale: 0.95 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{ delay: 0.2 }}
+                            >
+                            <div className="absolute inset-0 bg-gradient-to-r from-purple-400 via-purple-300 to-indigo-300 rounded-full blur-3xl opacity-20"></div>
+                            <div className="relative z-10 bg-purple-50 p-10 rounded-3xl shadow-md">
+                                <h3 className="text-xl font-semibold text-gray-800">Try it for free!</h3>
+                                <p className="text-gray-600 mt-2">Join thousands of businesses simplifying their links with Lynx.</p>
+                            </div>
+                            </motion.div>
                         </div>
-                    </motion.main>
+                        </section>
 
-                    {/* Secondary Section - Updated background */}
+
+                    {/* URL Shortener Section */}
+                    <section 
+                        ref={urlSectionRef}
+                        className="bg-white py-20"
+                    >
+                        <div className="max-w-7xl mx-auto px-6">
+                            <motion.div 
+                                className="max-w-3xl mx-auto"
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ delay: 0.2 }}
+                            >
+                                <div className="flex gap-4">
+                                    <div className="flex-1 relative">
+                                        <Link2 className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
+                                        <input
+                                            type="text"
+                                            placeholder="Paste a link to shorten it"
+                                            className="w-full pl-12 pr-4 py-4 rounded-lg border border-purple-100 focus:outline-none focus:ring-2 focus:ring-purple-400 text-gray-800 bg-white"
+                                        />
+                                    </div>
+                                    <button className="bg-gradient-to-r from-purple-600 via-purple-400 to-indigo-400 text-white px-8 py-4 rounded-lg hover:opacity-90 transition-all duration-300 shadow-lg whitespace-nowrap">
+                                        Shorten
+                                    </button>
+                                </div>
+                            </motion.div>
+                        </div>
+                    </section>
+
+                    {/* Why Choose Lynx Section */}
                     <motion.section 
-                        ref={shortenerRef} 
-                        className="w-full backdrop-blur-sm py-16 px-8 min-h-screen flex items-center"
+                        className="py-20 px-6 bg-white"
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
-                        transition={{ duration: 0.5 }}
+                        transition={{ delay: 0.3 }}
                     >
-                        <div className="max-w-3xl w-full mx-auto text-center">
-                            <div className="inline-flex p-1 bg-gray-100 rounded-xl mb-8">
-                                {/* Tab Buttons */}
-                                <button
-                                    className={`px-6 py-3 rounded-lg font-semibold transition-all duration-300 ${
-                                        activeTab === "shortener"
-                                            ? "bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg"
-                                            : "text-gray-700 hover:bg-gray-200"
-                                    }`}
-                                    onClick={() => setActiveTab("shortener")}
-                                >
-                                    🔗 Link Shortener
-                                </button>
-                                <button
-                                    className={`px-6 py-3 rounded-lg font-semibold transition-all duration-300 ${
-                                        activeTab === "qr"
-                                            ? "bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg"
-                                            : "text-gray-700 hover:bg-gray-200"
-                                    }`}
-                                    onClick={() => setActiveTab("qr")}
-                                >
-                                    📷 QR Code
-                                </button>
-                            </div>
+                        <div className="max-w-7xl mx-auto text-center">
+                            <motion.h2 
+                                className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-purple-600 via-purple-400 to-indigo-400 bg-clip-text text-transparent mb-16"
+                                initial={{ opacity: 0, x: -50 }}
+                                whileInView={{ opacity: 1, x: 0 }}
+                                transition={{ duration: 0.5 }}
+                                viewport={{ once: true }}
+                            >
+                                Why Choose Lynx?
+                            </motion.h2>
 
-                            {activeTab === "shortener" ? (
-                                <div className="flex items-center gap-4 bg-white rounded-xl p-6 shadow-xl border border-gray-100 w-full max-w-full">
-                                    <input
-                                        type="text"
-                                        placeholder="Paste your long URL here..."
-                                        className="w-full px-6 py-4 border border-gray-200 rounded-lg text-gray-600 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent text-lg"
-                                    />
-                                    <button
-                                        className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-8 py-4 rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300 whitespace-nowrap"
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                                {[
+                                    {
+                                        icon: "/static/integration.svg",
+                                        title: "Easy Integration",
+                                        description: "Connect and deploy within minutes with our powerful API and comprehensive documentation."
+                                    },
+                                    {
+                                        icon: "/static/global.svg",
+                                        title: "Global Access",
+                                        description: "Reliable and fast access to your shortened links from anywhere in the world."
+                                    },
+                                    {
+                                        icon: "/static/analytic.svg",
+                                        title: "Advanced Analytics",
+                                        description: "Deep insights into user behavior with real-time tracking and detailed reports."
+                                    }
+                                ].map((feature, index) => (
+                                    <motion.div 
+                                        key={index}
+                                        className="bg-white p-8 rounded-xl shadow-sm hover:shadow-md transition-all duration-300"
+                                        initial={{ opacity: 0, x: -50 }}
+                                        whileInView={{ opacity: 1, x: 0 }}
+                                        transition={{ duration: 0.5, delay: index * 0.2 }}
+                                        viewport={{ once: true }}
                                     >
-                                        Shorten URL
-                                    </button>
-                                </div>
-                            ) : (
-                                <div className="flex items-center gap-10 bg-white rounded-xl p-6 shadow-xl border border-gray-100 w-full max-w-full">
-                                    <input
-                                        type="text"
-                                        placeholder="Enter text or URL for QR code..."
-                                        className="w-full px-6 py-4 border border-gray-200 rounded-lg text-gray-600 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent text-lg"
-                                    />
-                                    <button
-                                        className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-8 py-4 rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300 whitespace-nowrap"
-                                    >
-                                        Generate QR
-                                    </button>
-                                </div>
-                            )}
+                                        <div className="bg-gradient-to-r from-purple-100 via-purple-50 to-indigo-50 w-14 h-14 rounded-lg flex items-center justify-center mx-auto mb-6">
+                                            <Image 
+                                                src={feature.icon}
+                                                alt={feature.title}
+                                                width={28}
+                                                height={28}
+                                            />
+                                        </div>
+                                        <h3 className="text-xl font-semibold mb-4">
+                                            {feature.title}
+                                        </h3>
+                                        <p className="text-gray-600">
+                                            {feature.description}
+                                        </p>
+                                    </motion.div>
+                                ))}
+                            </div>
                         </div>
                     </motion.section>
 
-                    {/* Why Choose Lynxs Section - Updated background */}
+                    {/* Endless Possibilities Section */}
                     <motion.section 
-                        className="w-full py-24 px-8 backdrop-blur-sm"
+                        className="py-20 px-6 bg-white"
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
-                        transition={{ duration: 0.5 }}
+                        transition={{ delay: 0.4 }}
                     >
-                        <div className="max-w-6xl mx-auto text-center space-y-16">
-                            <h3 className="text-4xl font-extrabold bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
-                                Why Choose Lynxs?
-                            </h3>
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                                {/* Feature Cards */}
-                                <motion.div
-                                    initial={{ opacity: 0, y: 20 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    transition={{ delay: 0.1 }}
-                                    className="group flex flex-col items-center p-8 rounded-2xl bg-white shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100"
-                                >
-                                    <div className="p-4 bg-indigo-50 rounded-2xl mb-6 group-hover:scale-110 transition-transform duration-300">
-                                        <Image src="/static/integration.svg" alt="Easy Integration" width={50} height={50} />
-                                    </div>
-                                    <h4 className="text-2xl font-semibold text-gray-800 mb-4">Easy Integration</h4>
-                                    <p className="text-gray-600">Connect and deploy within minutes with our powerful API and comprehensive documentation.</p>
-                                </motion.div>
-                                <motion.div
-                                    initial={{ opacity: 0, y: 20 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    transition={{ delay: 0.2 }}
-                                    className="group flex flex-col items-center p-8 rounded-2xl bg-white shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100"
-                                >
-                                    <div className="p-4 bg-purple-50 rounded-2xl mb-6 group-hover:scale-110 transition-transform duration-300">
-                                        <Image src="/static/global.svg" alt="Global Access" width={50} height={50} />
-                                    </div>
-                                    <h4 className="text-2xl font-semibold text-gray-800 mb-4">Global Access</h4>
-                                    <p className="text-gray-600">Reliable and fast access to your shortened links from anywhere in the world.</p>
-                                </motion.div>
-                                <motion.div
-                                    initial={{ opacity: 0, y: 20 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    transition={{ delay: 0.3 }}
-                                    className="group flex flex-col items-center p-8 rounded-2xl bg-white shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100"
-                                >
-                                    <div className="p-4 bg-pink-50 rounded-2xl mb-6 group-hover:scale-110 transition-transform duration-300">
-                                        <Image src="/static/analytic.svg" alt="Advanced Analytics" width={50} height={50} />
-                                    </div>
-                                    <h4 className="text-2xl font-semibold text-gray-800 mb-4">Advanced Analytics</h4>
-                                    <p className="text-gray-600">Deep insights into user behavior with real-time tracking and detailed reports.</p>
-                                </motion.div>
-                            </div>
-                            <button
-                                className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-12 py-5 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300 text-lg"
+                        <div className="max-w-7xl mx-auto text-center">
+                            <motion.h2 
+                                className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-purple-600 via-purple-400 to-indigo-400 bg-clip-text text-transparent mb-4"
+                                initial={{ opacity: 0, x: -50 }}
+                                whileInView={{ opacity: 1, x: 0 }}
+                                transition={{ duration: 0.5 }}
+                                viewport={{ once: true }}
                             >
-                                Explore All Features
-                            </button>
+                                Endless possibilities with a simple link
+                            </motion.h2>
+                            <motion.p 
+                                className="text-gray-600 text-lg md:text-xl max-w-3xl mx-auto mb-16"
+                                initial={{ opacity: 0, x: -50 }}
+                                whileInView={{ opacity: 1, x: 0 }}
+                                transition={{ duration: 0.5, delay: 0.2 }}
+                                viewport={{ once: true }}
+                            >
+                                Our advanced link shortening service allows you to personalize your links and 
+                                share them effortlessly.
+                            </motion.p>
+
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                            {[
+                                {
+                                icon: "/static/security.svg", // Ubah dengan ikon yang sesuai
+                                title: "Secure & Reliable",
+                                description:
+                                    "Enterprise-grade security with 99.9% uptime guarantee for your shortened URLs",
+                                },
+                                {
+                                icon: "/static/target.svg", // Ubah dengan ikon yang sesuai
+                                title: "Targeted Reach",
+                                description:
+                                    "Customize your links for different audiences and track engagement metrics",
+                                },
+                                {
+                                icon: "/static/lightning.svg", // Ubah dengan ikon yang sesuai
+                                title: "Lightning Fast",
+                                description:
+                                    "Optimized infrastructure ensures quick redirects and real-time analytics",
+                                },
+                            ].map((feature, index) => (
+                                <motion.div
+                                key={index}
+                                className="bg-white p-8 rounded-xl shadow-sm hover:shadow-md transition-all duration-300"
+                                initial={{ opacity: 0, x: -50 }}
+                                whileInView={{ opacity: 1, x: 0 }}
+                                transition={{ duration: 0.5, delay: index * 0.2 }}
+                                viewport={{ once: true }}
+                                >
+                                <div className="bg-gradient-to-r from-purple-100 via-purple-50 to-indigo-50 w-14 h-14 rounded-lg flex items-center justify-center mx-auto mb-6">
+                                    <Image
+                                    src={feature.icon}
+                                    alt={feature.title}
+                                    width={28}
+                                    height={28}
+                                    />
+                                </div>
+                                <h3 className="text-xl font-semibold mb-4">{feature.title}</h3>
+                                <p className="text-gray-600">{feature.description}</p>
+                                </motion.div>
+                            ))}
+                            </div>
                         </div>
                     </motion.section>
                 </div>
