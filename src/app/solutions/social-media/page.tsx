@@ -4,9 +4,9 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import Navbar from "@/app/components/Navbar";
 import AppLayout from "@/app/components/AppLayout";
-import { Code, ShieldCheck, Globe2, Cpu, Book, ArrowRight } from "lucide-react";
+import { Share2, Globe, BarChart3, Users, ArrowRight } from "lucide-react";
 
-export default function ApiAccessPage() {
+export default function SocialMediaPage() {
   return (
     <AppLayout>
       <div className="min-h-screen bg-gradient-to-br from-purple-50 via-indigo-50 to-white">
@@ -21,43 +21,41 @@ export default function ApiAccessPage() {
                 className="flex-1 text-center lg:text-left"
               >
                 <h1 className="text-5xl font-bold bg-gradient-to-r from-purple-600 via-purple-400 to-indigo-400 bg-clip-text text-transparent mb-6">
-                  Powerful API Access
+                  Social Media Optimization
                 </h1>
                 <p className="text-gray-600 text-lg mb-8 max-w-2xl mx-auto lg:mx-0">
-                  Integrate with our scalable and secure APIs to manage your links, analytics, and tracking effortlessly.
-                  Built for developers, trusted by enterprises.
+                  Boost your online presence with tools designed for seamless social media integration. Engage your audience and track performance effortlessly.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
                   <Link
                     href="/signup"
                     className="px-8 py-4 bg-gradient-to-r from-purple-600 via-purple-400 to-indigo-400 text-white rounded-xl font-semibold shadow-lg hover:opacity-90 transition-all duration-300 text-center"
                   >
-                    Get API Access
+                    Get Started Free
                   </Link>
                   <Link
-                    href="/resources/api-docs"
+                    href="https://wa.me/+6281398517263"
                     className="px-8 py-4 bg-white text-gray-700 rounded-xl font-semibold hover:bg-gray-50 transition-all duration-300 border border-gray-200 text-center"
                   >
-                    View API Docs
+                    Contact Us
                   </Link>
                 </div>
               </motion.div>
+
               <motion.div
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.2 }}
-                className="flex-1 text-center"
+                className="flex-1"
               >
-                <h2 className="text-3xl font-semibold text-gray-800">
-                  Key Features
-                </h2>
-                <ul className="mt-6 space-y-4 text-gray-600">
-                  <li>✓ RESTful API with intuitive endpoints</li>
-                  <li>✓ High security standards with OAuth</li>
-                  <li>✓ Comprehensive documentation and examples</li>
-                  <li>✓ Real-time analytics and tracking</li>
-                  <li>✓ Scalable infrastructure for global access</li>
-                </ul>
+                <div className="relative">
+                  <div className="absolute inset-0 bg-gradient-to-r from-purple-100 to-indigo-100 rounded-3xl transform -rotate-6"></div>
+                  <div className="relative bg-white rounded-3xl shadow-lg p-6 transform rotate-3">
+                    <p className="text-center text-gray-700">
+                      Imagine a dynamic representation of social media analytics with vibrant graphs, charts, and icons symbolizing engagement metrics.
+                    </p>
+                  </div>
+                </div>
               </motion.div>
             </div>
           </section>
@@ -71,33 +69,33 @@ export default function ApiAccessPage() {
                 className="text-center mb-16"
               >
                 <h2 className="text-3xl font-bold text-gray-900 mb-4">
-                  Why Choose Our API?
+                  Empower Your Social Media Strategy
                 </h2>
                 <p className="text-gray-600 text-lg max-w-2xl mx-auto">
-                  Explore the features that make our API the most reliable solution for developers and businesses alike.
+                  Discover the tools and analytics you need to maximize your social media impact.
                 </p>
               </motion.div>
               <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
                 {[
                   {
-                    icon: <Code className="w-6 h-6 text-purple-600" />,
-                    title: "Developer Friendly",
-                    description: "Clean and simple RESTful API with extensive documentation."
+                    icon: <Share2 className="w-6 h-6 text-purple-600" />,
+                    title: "Seamless Sharing",
+                    description: "Easily share your content across multiple platforms with one click."
                   },
                   {
-                    icon: <ShieldCheck className="w-6 h-6 text-purple-600" />,
-                    title: "Enterprise Grade Security",
-                    description: "Secure APIs with OAuth and rate-limiting for peace of mind."
+                    icon: <Globe className="w-6 h-6 text-purple-600" />,
+                    title: "Global Reach",
+                    description: "Expand your audience with optimized tools for international engagement."
                   },
                   {
-                    icon: <Globe2 className="w-6 h-6 text-purple-600" />,
-                    title: "Global Scalability",
-                    description: "Built on a global infrastructure for seamless performance."
+                    icon: <BarChart3 className="w-6 h-6 text-purple-600" />,
+                    title: "Detailed Analytics",
+                    description: "Monitor and analyze the performance of your social media campaigns."
                   },
                   {
-                    icon: <Cpu className="w-6 h-6 text-purple-600" />,
-                    title: "High Performance",
-                    description: "Optimized for low latency and high throughput requests."
+                    icon: <Users className="w-6 h-6 text-purple-600" />,
+                    title: "Audience Insights",
+                    description: "Understand your audience demographics and engagement trends."
                   }
                 ].map((feature, index) => (
                   <motion.div
@@ -127,16 +125,16 @@ export default function ApiAccessPage() {
                 className="bg-gradient-to-r from-purple-600 via-purple-400 to-indigo-400 rounded-2xl p-12 text-center relative overflow-hidden"
               >
                 <h2 className="text-3xl font-bold text-white mb-6">
-                  Start Building with Our API Today
+                  Take Your Social Media to the Next Level
                 </h2>
                 <p className="text-white/90 text-lg mb-8 max-w-2xl mx-auto">
-                  Join thousands of developers building amazing apps with our APIs.
+                  Join thousands of marketers leveraging our tools to enhance their social media presence.
                 </p>
                 <Link
                   href="/signup"
                   className="inline-flex px-8 py-4 bg-white text-purple-600 rounded-xl font-semibold shadow-lg hover:bg-gray-50 transition-all duration-300 items-center gap-2"
                 >
-                  Get API Access
+                  Get Started Free
                   <ArrowRight className="w-5 h-5" />
                 </Link>
               </motion.div>

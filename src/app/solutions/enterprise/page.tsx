@@ -4,9 +4,9 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import Navbar from "@/app/components/Navbar";
 import AppLayout from "@/app/components/AppLayout";
-import { Code, ShieldCheck, Globe2, Cpu, Book, ArrowRight } from "lucide-react";
+import { Briefcase, ShieldCheck, BarChart3, Users, Globe2, Cpu } from "lucide-react";
 
-export default function ApiAccessPage() {
+export default function ForEnterprisePage() {
   return (
     <AppLayout>
       <div className="min-h-screen bg-gradient-to-br from-purple-50 via-indigo-50 to-white">
@@ -21,49 +21,25 @@ export default function ApiAccessPage() {
                 className="flex-1 text-center lg:text-left"
               >
                 <h1 className="text-5xl font-bold bg-gradient-to-r from-purple-600 via-purple-400 to-indigo-400 bg-clip-text text-transparent mb-6">
-                  Powerful API Access
+                  Enterprise Solutions
                 </h1>
                 <p className="text-gray-600 text-lg mb-8 max-w-2xl mx-auto lg:mx-0">
-                  Integrate with our scalable and secure APIs to manage your links, analytics, and tracking effortlessly.
-                  Built for developers, trusted by enterprises.
+                  Empower your business with secure, scalable, and customizable link management tools designed for large-scale enterprises. 
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                  <Link
-                    href="/signup"
-                    className="px-8 py-4 bg-gradient-to-r from-purple-600 via-purple-400 to-indigo-400 text-white rounded-xl font-semibold shadow-lg hover:opacity-90 transition-all duration-300 text-center"
-                  >
-                    Get API Access
-                  </Link>
-                  <Link
-                    href="/resources/api-docs"
-                    className="px-8 py-4 bg-white text-gray-700 rounded-xl font-semibold hover:bg-gray-50 transition-all duration-300 border border-gray-200 text-center"
-                  >
-                    View API Docs
+                    <Link
+                    href="https://wa.me/+6281398517263"
+                    className="inline-flex px-8 py-4 bg-white text-purple-600 rounded-xl font-semibold shadow-lg hover:bg-gray-50 transition-all duration-300 items-center gap-2"
+                    >
+                    Contact Sales
                   </Link>
                 </div>
-              </motion.div>
-              <motion.div
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.2 }}
-                className="flex-1 text-center"
-              >
-                <h2 className="text-3xl font-semibold text-gray-800">
-                  Key Features
-                </h2>
-                <ul className="mt-6 space-y-4 text-gray-600">
-                  <li>✓ RESTful API with intuitive endpoints</li>
-                  <li>✓ High security standards with OAuth</li>
-                  <li>✓ Comprehensive documentation and examples</li>
-                  <li>✓ Real-time analytics and tracking</li>
-                  <li>✓ Scalable infrastructure for global access</li>
-                </ul>
               </motion.div>
             </div>
           </section>
 
           {/* Features Section */}
-          <section className="px-4 sm:px-6 lg:px-8 py-20 from-purple-50 via-indigo-50 to-white">
+          <section className="px-4 sm:px-6 lg:px-8 py-20 bg-white">
             <div className="max-w-7xl mx-auto">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -71,33 +47,43 @@ export default function ApiAccessPage() {
                 className="text-center mb-16"
               >
                 <h2 className="text-3xl font-bold text-gray-900 mb-4">
-                  Why Choose Our API?
+                  Why Choose Us for Enterprise?
                 </h2>
                 <p className="text-gray-600 text-lg max-w-2xl mx-auto">
-                  Explore the features that make our API the most reliable solution for developers and businesses alike.
+                  Explore the benefits of our enterprise solutions tailored to meet your business needs.
                 </p>
               </motion.div>
-              <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {[
                   {
-                    icon: <Code className="w-6 h-6 text-purple-600" />,
-                    title: "Developer Friendly",
-                    description: "Clean and simple RESTful API with extensive documentation."
+                    icon: <Briefcase className="w-6 h-6 text-purple-600" />,
+                    title: "Custom Solutions",
+                    description: "Get tailor-made tools and services to fit your business requirements."
                   },
                   {
                     icon: <ShieldCheck className="w-6 h-6 text-purple-600" />,
-                    title: "Enterprise Grade Security",
-                    description: "Secure APIs with OAuth and rate-limiting for peace of mind."
+                    title: "Top-notch Security",
+                    description: "Enterprise-grade security to keep your data safe and secure."
+                  },
+                  {
+                    icon: <BarChart3 className="w-6 h-6 text-purple-600" />,
+                    title: "Advanced Analytics",
+                    description: "Access real-time analytics to track and optimize your campaigns."
+                  },
+                  {
+                    icon: <Users className="w-6 h-6 text-purple-600" />,
+                    title: "Team Collaboration",
+                    description: "Streamline workflows with team-based link management and reporting."
                   },
                   {
                     icon: <Globe2 className="w-6 h-6 text-purple-600" />,
                     title: "Global Scalability",
-                    description: "Built on a global infrastructure for seamless performance."
+                    description: "Designed to handle millions of clicks, ensuring seamless performance."
                   },
                   {
                     icon: <Cpu className="w-6 h-6 text-purple-600" />,
                     title: "High Performance",
-                    description: "Optimized for low latency and high throughput requests."
+                    description: "Built for speed, reliability, and efficiency at any scale."
                   }
                 ].map((feature, index) => (
                   <motion.div
@@ -118,7 +104,7 @@ export default function ApiAccessPage() {
             </div>
           </section>
 
-          {/* CTA Section */}
+          {/* Call to Action Section */}
           <section className="px-4 sm:px-6 lg:px-8 py-20">
             <div className="max-w-7xl mx-auto">
               <motion.div
@@ -127,17 +113,16 @@ export default function ApiAccessPage() {
                 className="bg-gradient-to-r from-purple-600 via-purple-400 to-indigo-400 rounded-2xl p-12 text-center relative overflow-hidden"
               >
                 <h2 className="text-3xl font-bold text-white mb-6">
-                  Start Building with Our API Today
+                  Let’s Scale Your Business Together
                 </h2>
                 <p className="text-white/90 text-lg mb-8 max-w-2xl mx-auto">
-                  Join thousands of developers building amazing apps with our APIs.
+                  Join leading enterprises in utilizing our reliable and secure link management platform.
                 </p>
                 <Link
-                  href="/signup"
+                  href="https://wa.me/+6281398517263"
                   className="inline-flex px-8 py-4 bg-white text-purple-600 rounded-xl font-semibold shadow-lg hover:bg-gray-50 transition-all duration-300 items-center gap-2"
                 >
-                  Get API Access
-                  <ArrowRight className="w-5 h-5" />
+                  Contact Sales
                 </Link>
               </motion.div>
             </div>

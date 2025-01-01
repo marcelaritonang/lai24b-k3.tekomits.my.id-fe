@@ -28,10 +28,7 @@ export default function AppLayout({ children }: AppLayoutProps) {
     return (
         <div className="min-h-screen">
             {/* Navbar */}
-            <Navbar 
-                showSidebarToggle={true}
-                onToggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)}
-            />
+            <Navbar/>
 
             <div className="flex min-h-screen pt-16">
                 {/* Sidebar */}

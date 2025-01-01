@@ -6,14 +6,10 @@ import { usePathname, useRouter } from "next/navigation";
 import { User, LogOut, Settings, ChevronDown } from 'lucide-react';
 
 interface NavbarProps {
-  showSidebarToggle?: boolean;
-  onToggleSidebar?: () => void;
   onGetStartedClick?: () => void;
 }
 
 export default function Navbar({
-  showSidebarToggle = false,
-  onToggleSidebar,
   onGetStartedClick,
 }: NavbarProps) {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -28,10 +24,8 @@ export default function Navbar({
   const isHomePage = pathname === "/";
 
   useEffect(() => {
-    // Check if user is logged in
     const token = localStorage.getItem('token');
     if (token) {
-      // You can decode JWT token here or fetch user data from API
       const userData = localStorage.getItem('userData');
       if (userData) {
         setUser(JSON.parse(userData));
@@ -83,9 +77,10 @@ export default function Navbar({
     router.push('/login');
   };
 
-  type NavItem =
-    | { label: string; href: string; dropdownItems?: never }
-    | { label: string; dropdownItems: { name: string; href: string }[]; href?: never };
+  type NavItem = {
+    label: string;
+    dropdownItems: { name: string; href: string }[];  
+  };
 
   const navItems: NavItem[] = [
     {
@@ -131,29 +126,15 @@ export default function Navbar({
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
-          {/* Left Side - Logo and Hamburger */}
-          <div className="flex items-center gap-4">
-            {showSidebarToggle && (
-              <button
-                onClick={onToggleSidebar}
-                className="p-2 rounded-lg hover:bg-gray-100"
-              >
-                <div className="w-6 h-6 flex flex-col justify-center gap-1">
-                  <span className="block w-6 h-0.5 bg-gray-600"></span>
-                  <span className="block w-6 h-0.5 bg-gray-600"></span>
-                  <span className="block w-6 h-0.5 bg-gray-600"></span>
-                </div>
-              </button>
-            )}
-            <Link href="/" className="flex items-center gap-2">
-              <img
-                src="/static/logo.png"
-                alt="Lynx Logo"
-                className="w-11 h-11 rounded-xl shadow-md"
-              />
-              <span className="text-2xl font-bold text-[#8B5CF6]">Lynx</span>
-            </Link>
-          </div>
+          {/* Logo */}
+          <Link href="/" className="flex items-center gap-2">
+            <img
+              src="/static/logo.png"
+              alt="Lynx Logo"
+              className="w-11 h-11 rounded-xl shadow-md"
+            />
+            <span className="text-2xl font-bold text-[#8B5CF6]">Lynx</span>
+          </Link>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-2">
@@ -172,18 +153,15 @@ export default function Navbar({
                   }`}
                 >
                   {item.label}
-                  {item.dropdownItems && (
-                    <span
-                      className={`ml-1 text-[10px] transition-transform duration-200 ${
-                        hoveredItem === item.label ? "rotate-180" : ""
-                      }`}
-                    >
-                      ▼
-                    </span>
-                  )}
+                  <ChevronDown 
+                    size={16} 
+                    className={`inline-block ml-1 transition-transform duration-200 ${
+                      hoveredItem === item.label ? 'rotate-180' : ''
+                    }`}
+                  />
                 </button>
 
-                {item.dropdownItems && hoveredItem === item.label && (
+                {hoveredItem === item.label && (
                   <div className="absolute left-0 min-w-[200px] mt-1 bg-white rounded-lg shadow-xl border border-gray-100 z-50">
                     {item.dropdownItems.map((dropdownItem, idx) => (
                       <Link
@@ -200,10 +178,9 @@ export default function Navbar({
             ))}
           </div>
 
-          {/* Right Side - Auth/User Menu */}
+          {/* Auth Menu */}
           <div className="flex items-center gap-4">
             {user ? (
-              // User is logged in
               <div className="relative" ref={userMenuRef}>
                 <button
                   onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
@@ -221,7 +198,6 @@ export default function Navbar({
                   />
                 </button>
 
-                {/* User Dropdown Menu */}
                 {isUserMenuOpen && (
                   <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl border border-gray-100 py-1">
                     <div className="px-4 py-2 border-b border-gray-100">
@@ -253,7 +229,6 @@ export default function Navbar({
                 )}
               </div>
             ) : (
-              // User is not logged in
               <>
                 <Link
                   href="/login"

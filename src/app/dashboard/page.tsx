@@ -165,7 +165,7 @@ const handleShorten = async (e: React.FormEvent) => {
   return (
     <AppLayout>
       <div className="min-h-screen bg-gradient-to-br from-purple-50 via-indigo-50 to-white">
-        <Navbar showSidebarToggle={true} />
+        <Navbar/>
 
         <main className="pt-20 px-4 sm:px-6 lg:px-8">
           <div className="max-w-7xl mx-auto">
