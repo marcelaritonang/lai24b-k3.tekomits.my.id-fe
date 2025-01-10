@@ -92,15 +92,15 @@ export default function Navbar({
         { name: "API Access", href: "/products/api-access" },
       ],
     },
-    {
-      label: "Solutions",
-      dropdownItems: [
-        { name: "For Enterprise", href: "/solutions/enterprise" },
-        { name: "For Marketing", href: "/solutions/marketing" },
-        { name: "For Social Media", href: "/solutions/social-media" },
-        { name: "For Developers", href: "/solutions/developers" },
-      ],
-    },
+    // {
+    //   label: "Solutions",
+    //   dropdownItems: [
+    //     { name: "For Enterprise", href: "/solutions/enterprise" },
+    //     { name: "For Marketing", href: "/solutions/marketing" },
+    //     { name: "For Social Media", href: "/solutions/social-media" },
+    //     { name: "For Developers", href: "/solutions/developers" },
+    //   ],
+    // },
     {
       label: "Resources",
       dropdownItems: [

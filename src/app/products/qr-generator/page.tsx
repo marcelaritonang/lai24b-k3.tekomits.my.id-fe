@@ -58,7 +58,7 @@ export default function QRGeneratorPage() {
                   <div className="relative bg-white rounded-3xl shadow-lg p-6 transform rotate-3 transition-transform hover:rotate-0 duration-300">
                     {/* QR Code Preview Area */}
                     <div className="aspect-square bg-gray-50 rounded-xl flex items-center justify-center">
-                      <QrCode className="w-32 h-32 text-gray-400" />
+                      <QrCode className="w-32 h-32 text-purple-400" />
                     </div>
                   </div>
                 </motion.div>
